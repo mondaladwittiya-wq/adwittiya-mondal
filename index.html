@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Adwittiya Mondal · 2D Animator</title>
-<meta name="description" content="Portfolio of Adwittiya Mondal, 2D animator in Melbourne: character animation, frame-by-frame, storyboards and animatics.">
+<meta name="description" content="Portfolio of Adwittiya Mondal, 2D animator in Melbourne: showreel, character animation, frame-by-frame, storyboards and animatics.">
 <meta property="og:title" content="Adwittiya Mondal · 2D Animator">
-<meta property="og:description" content="Portfolio of Adwittiya Mondal, 2D animator in Melbourne: character animation, frame-by-frame, storyboards and animatics.">
-<meta property="og:image" content="m/reel2d.webp">
+<meta property="og:description" content="Turning ideas into visual stories. 2D showreel, character animation and storyboards.">
+<meta property="og:image" content="m/showreel2d.webp">
 <meta name="theme-color" content="#76c3ee">
 </head>
 <body>
@@ -105,6 +105,16 @@ h1,h2,h3{font-weight:900;line-height:1.08;margin:0;text-wrap:balance}
 .mascot-tip{position:absolute;right:0;bottom:100%;margin-bottom:8px;white-space:nowrap;padding:5px 12px;border-radius:999px;background:var(--white);border:2px solid var(--ink);font-weight:800;font-size:13px;opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s}
 .mascot:hover .mascot-tip,.mascot:focus-visible .mascot-tip{opacity:1;transform:none}
 @media (max-width:640px){.mascot{bottom:3vh}}
+
+/* SHOWREEL */
+#showreel{background:var(--sky-t)}
+.reelbox{max-width:max(320px,calc((100vh - 360px) * 16 / 9));margin:0 auto;border:4px solid var(--ink);border-radius:24px;overflow:hidden;background:var(--ink);box-shadow:var(--sh)}
+.reelbox video{display:block;width:100%;height:auto;aspect-ratio:16/9}
+.chapters{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin:22px auto 0;max-width:900px}
+.chapters button{padding:7px 15px;border-radius:999px;border:2px solid var(--ink);background:var(--white);font-weight:700;font-size:15px;transition:transform .2s ease,background .2s ease}
+.chapters button:hover{transform:scale(1.04);background:var(--sand-t)}
+.chapters b{color:var(--sky-d);margin-right:6px;font-variant-numeric:tabular-nums}
+.reel-cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:26px}
 
 /* ABOUT */
 #about{background:var(--cream);padding-top:0}
@@ -270,13 +280,14 @@ button.pol:hover{transform:rotate(0) scale(1.03)}
     Adwittiya Mondal
   </button>
   <nav class="links" aria-label="Sections">
-    <button data-go="about">About</button><button data-go="work">Work</button><button data-go="services">Services</button><button data-go="contact">Contact</button>
+    <button data-go="showreel">Showreel</button><button data-go="about">About</button><button data-go="work">Work</button><button data-go="services">Services</button><button data-go="contact">Contact</button>
   </nav>
   <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><svg viewBox="0 0 24 24" fill="none" stroke="#24324a" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </header>
 <nav class="mnav" id="mnav" aria-label="Sections" hidden>
   <button class="mnav-x" id="mnav-x" aria-label="Close menu">✕</button>
   <button data-go="home" style="--d:0">Home</button>
+  <button data-go="showreel" style="--d:1">Showreel</button>
   <button data-go="about" style="--d:1">About</button>
   <button data-go="work" style="--d:2">Work</button>
   <button data-go="services" style="--d:3">Services</button>
@@ -325,6 +336,7 @@ button.pol:hover{transform:rotate(0) scale(1.03)}
       <div class="cta rise" style="--d:3">
         <button class="pill sky" data-go="work">See My Work →</button>
         <button class="pill coral" data-go="contact">Get in Touch</button>
+        <button class="pill" style="background:#fff" data-go="showreel">▶ Watch Showreel</button>
       </div>
     </div>
   </div>
@@ -341,6 +353,20 @@ button.pol:hover{transform:rotate(0) scale(1.03)}
       </g>
     </svg>
   </button>
+</section>
+
+<!-- SHOWREEL -->
+<section class="page" id="showreel" aria-label="Showreel" hidden>
+  <div class="wrap">
+    <h2 class="h-sec rise" style="--d:0;justify-content:center" tabindex="-1"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="10" width="56" height="44" rx="12" fill="#ef7b5c" stroke="#24324a" stroke-width="5"/><path d="M26 22v20l17-10z" fill="#fff" stroke="#24324a" stroke-width="4" stroke-linejoin="round"/></svg>Showreel</h2>
+    <p class="sub rise" style="--d:1;text-align:center;margin-left:auto;margin-right:auto">80 seconds of my 2D work: character animation, timing tests, effects, animatics and character design.</p>
+    <div class="reelbox rise" style="--d:2"><video id="reel" controls playsinline preload="metadata" poster="m/showreel2d.webp" src="m/showreel2d.mp4" width="1280" height="720"></video></div>
+    <div class="chapters rise" style="--d:3" aria-label="Jump to a part of the showreel">
+      <button data-t="3.5"><b>0:03</b>Squash &amp; stretch</button><button data-t="15.9"><b>0:16</b>Collarts character</button><button data-t="23.9"><b>0:24</b>Timing &amp; idle</button>
+      <button data-t="37.1"><b>0:37</b>Effects</button><button data-t="41.6"><b>0:42</b>Animatics</button><button data-t="60.1"><b>1:00</b>Character design</button><button data-t="70.5"><b>1:10</b>Sign-off</button>
+    </div>
+    <div class="reel-cta rise" style="--d:4"><button class="pill sky" data-go="work">See My Work →</button><button class="pill coral" data-go="contact">Get in Touch</button></div>
+  </div>
 </section>
 
 <!-- ABOUT -->
@@ -485,9 +511,9 @@ const V = (s, p, cap) => ({t: 'v', s, p, cap});
 const I = (s, cap) => ({t: 'i', s, cap});
 const COLORS = [['#76c3ee', '#e2f2fc'], ['#f7d37a', '#fdf1cf'], ['#8cc09a', '#e3f1e6'], ['#ef7b5c', '#fde4dc']];
 const P = [
- {id:'anim', title:'2D Reel & Animation Tests', cat:'Frame-by-Frame', year:'2024 – 2026', role:'Animator', tools:'Procreate · After Effects',
+ {id:'anim', title:'Animation Tests', cat:'Frame-by-Frame', year:'2024 – 2026', role:'Animator', tools:'Procreate · After Effects',
   hover:'m/reel2d.mp4', poster:'m/reel2d.webp', main:V('m/reel2d.mp4', 'm/reel2d.webp'),
-  text:['My 41-second 2D reel, cut from hand-drawn tests that each chase one principle.','An orange blob climbs out of a sketchbook with squash and stretch and a big anticipation before it runs. A ball bounces into a stick-figure walk-in, a character holds an idle loop, a pool of water splashes as an effects loop, and a single drop lands and turns into my signature.'],
+  text:['A 41-second cut of hand-drawn tests, each chasing one principle. My full showreel has its own page.','An orange blob climbs out of a sketchbook with squash and stretch and a big anticipation before it runs. A ball bounces into a stick-figure walk-in, a character holds an idle loop, a pool of water splashes as an effects loop, and a single drop lands and turns into my signature.'],
   stills:[V('m/new/blob.mp4','m/new/blob.webp','Blob: squash, stretch and the run'), V('m/new/ballwalk.mp4','m/new/ballwalk.webp','Ball bounce into a walk-in'), V('m/new/mermaid.mp4','m/new/mermaid.webp','Idle loop'), V('m/new/splash.mp4','m/new/splash.webp','Water splash effects loop'), V('m/new/drop.mp4','m/new/drop.webp','Water drop and signature'), V('m/new/peek.mp4','m/new/peek.webp','Peek-in pencil test')]},
  {id:'nams', title:'Advocacy Film Animatic', cat:'Storyboarding & Animatic', year:'2026', role:'Art Director, animator &amp; team coordinator', tools:'Storyboarder',
   hover:'m/nams/00.mp4', poster:'m/frames/nams_45.webp', main:V('m/nams/00.mp4', 'm/nams/00.webp'),
@@ -561,7 +587,8 @@ grid.querySelectorAll('.card').forEach(card => {
 });
 
 /* section switching: click-triggered entrances plus a short paw-print trail */
-const NAVS = ['home', 'about', 'work', 'services', 'contact'];
+const NAVS = ['home', 'showreel', 'about', 'work', 'services', 'contact'];
+const reel = document.getElementById('reel');
 const pages = [...document.querySelectorAll('.page')];
 const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const paws = document.querySelector('.paws');
@@ -585,6 +612,7 @@ function show(id) {
   document.querySelectorAll('.links button,.mnav [data-go]').forEach(b => b.setAttribute('aria-current', b.dataset.go === id));
   const pg = document.getElementById(id); pg.scrollTop = 0;
   (pg.querySelector('[tabindex="-1"]') || pg).focus({preventScroll: true});
+  if (id !== 'showreel') reel.pause();
   if (current) trail();
   current = id;
 }
@@ -728,6 +756,8 @@ document.addEventListener('click', e => {
     const sel = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('mail')); getSelection().removeAllRanges(); getSelection().addRange(r); };
     try { navigator.clipboard.writeText(cp.dataset.copy).then(done, sel); } catch { sel(); }
   }
+  const ch = t.closest('[data-t]');
+  if (ch) { reel.currentTime = +ch.dataset.t; reel.play().catch(() => {}); }
   if (t.closest('[data-cv]')) openCv();
   if (t.closest('#cv-x')) closeCv();
   if (t.closest('#cv-dl')) saveCv();
