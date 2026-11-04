@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Adwittiya Mondal · 2D Character Designer &amp; Storyboard Artist</title>
+<meta name="description" content="2D portfolio of Adwittiya Mondal, junior 2D character designer and storyboard artist in Melbourne: 2D reel, character design, storyboards and animation tests.">
+<meta property="og:title" content="Adwittiya Mondal · 2D Character Designer &amp; Storyboard Artist">
+<meta property="og:description" content="Turning ideas into visual stories. 2D reel, characters, storyboards and sketchbook.">
+<meta property="og:image" content="../m/reel2d.webp">
+<meta name="theme-color" content="#f3f2ec">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f3f2ec'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%23d7263d' stroke='%2325252b' stroke-width='2'/%3E%3C/svg%3E">
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Caveat:wght@500;700&family=Karla:wght@400;500;700&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Layout: an animator's desk. Sections are sheets of animation bond (peg holes on top) swapped by a flipbook riffle;
+   blue and red col-erase pencil are the only accents. Single light look by design: it is paper. */
+:root{
+  --paper:#f3f2ec; --sheet:#fffffb; --graphite:#25252b; --soft:#64636b; --blue:#2f5bd3; --blue-soft:#a9bdf3; --red:#d7263d; --line:#d8d5ca; --tape:rgba(222,212,178,.78);
+  --display:"Fredericka the Great",Georgia,serif;
+  --hand:"Caveat","Segoe Print","Bradley Hand",cursive;
+  --body:"Karla","Helvetica Neue",Arial,sans-serif;
+  --mono:"Courier Prime","Courier New",monospace;
+  --wob:255px 15px 225px 15px/15px 225px 15px 255px;
+  --ease:cubic-bezier(.65,0,.3,1);
+  --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.28 0 0 0 0 0.24 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --pencil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M3 25l2.4-7.2L20 3.2l4.8 4.8L10.2 22.6z' fill='%23f6c94b' stroke='%2325252b' stroke-width='1.4'/%3E%3Cpath d='M3 25l2.4-7.2 4.8 4.8z' fill='%23e9d6b0' stroke='%2325252b' stroke-width='1.2'/%3E%3Cpath d='M3 25l1-3 2 2z' fill='%232f5bd3'/%3E%3C/svg%3E") 2 26;
+  --pencil-red:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M3 25l2.4-7.2L20 3.2l4.8 4.8L10.2 22.6z' fill='%23d7263d' stroke='%2325252b' stroke-width='1.4'/%3E%3Cpath d='M3 25l2.4-7.2 4.8 4.8z' fill='%23e9d6b0' stroke='%2325252b' stroke-width='1.2'/%3E%3Cpath d='M3 25l1-3 2 2z' fill='%23d7263d'/%3E%3C/svg%3E") 2 26;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{margin:0;background:var(--paper) var(--noise);color:var(--graphite);font:17px/1.6 var(--body);overflow:hidden;-webkit-font-smoothing:antialiased;cursor:var(--pencil),auto}
+a,button,summary,[data-go],[data-case],[data-lb],[data-f],[data-cv]{cursor:var(--pencil-red),pointer}
+input,textarea{cursor:text}
+button{font:inherit;color:inherit;background:none;border:0}
+a{color:inherit}
+img{max-width:100%}
+:focus-visible{outline:2px dashed var(--blue);outline-offset:4px}
+[tabindex="-1"]:focus{outline:none}
+[hidden]{display:none!important}
+.mono{font-family:var(--mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.hand{font-family:var(--hand)}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.02;margin:0;text-wrap:balance}
+
+/* a sheet of paper: hand-drawn pencil edge, soft lift */
+.sheet{background:var(--sheet) var(--noise);border:2px solid var(--graphite);border-radius:var(--wob);box-shadow:2px 3px 0 rgba(37,37,43,.85)}
+.tape{position:relative}
+.tape::before{content:"";position:absolute;top:-12px;left:50%;width:84px;height:24px;margin-left:-42px;background:var(--tape);transform:rotate(-3deg);box-shadow:0 1px 2px rgba(0,0,0,.08);z-index:2}
+
+/* line boil: the jitter of a hand-drawn line redrawn every frame */
+@keyframes boil{0%{transform:rotate(-.6deg) translate(0,0)}33%{transform:rotate(.5deg) translate(.6px,-.4px)}66%{transform:rotate(-.2deg) translate(-.5px,.5px)}100%{transform:rotate(.3deg) translate(0,0)}}
+@keyframes blink{50%{opacity:.25}}
+
+/* animation-paper peg holes along the top of the screen */
+.pegs{position:fixed;z-index:31;top:calc(env(safe-area-inset-top,0px) + 12px);left:50%;transform:translateX(-50%);display:flex;gap:46px;align-items:center;pointer-events:none}
+.pegs i{display:block;height:13px;width:46px;border-radius:7px;background:#dedbd0;box-shadow:inset 0 2px 3px rgba(0,0,0,.25)}
+.pegs i:nth-child(2){width:15px;height:15px;border-radius:50%}
+@media (max-width:600px){.pegs{gap:26px}.pegs i{width:30px;height:10px}.pegs i:nth-child(2){width:12px;height:12px}}
+
+/* sections */
+.page{position:fixed;inset:0;z-index:1;overflow-y:auto;overscroll-behavior:contain;
+  padding-top:calc(env(safe-area-inset-top,0px) + 92px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 130px);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto}
+.page.enter .rise{animation:draw .7s steps(7) both;animation-delay:calc(var(--d,0) * 90ms + 140ms)}
+@keyframes draw{0%{opacity:0;transform:translateY(16px) rotate(-1deg)}100%{opacity:1;transform:none}}
+
+/* flipbook riffle between sections */
+.wipe{position:fixed;inset:0;z-index:50;pointer-events:none;overflow:hidden}
+.wipe:not(.run){visibility:hidden}
+.wipe i{position:absolute;inset:-6%;background:var(--sheet) var(--noise);box-shadow:0 -10px 30px rgba(0,0,0,.14);transform:translateY(112%) rotate(4deg)}
+.wipe i::before{content:"";position:absolute;left:50%;top:9%;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--red);transform:translateY(var(--by)) scale(var(--sx,1),var(--sy,1));box-shadow:0 0 0 2px var(--graphite)}
+.wipe i::after{content:attr(data-f);position:absolute;right:10%;bottom:10%;font:700 clamp(48px,7vw,84px) var(--hand);color:var(--blue)}
+.wipe i:nth-child(1){--by:10vh}
+.wipe i:nth-child(2){--by:34vh;animation-delay:.05s!important}
+.wipe i:nth-child(3){--by:58vh;--sx:1.35;--sy:.7;animation-delay:.1s!important}
+.wipe i:nth-child(4){--by:30vh;animation-delay:.15s!important}
+.wipe.run i{animation:riffle .9s var(--ease) both}
+@keyframes riffle{0%{transform:translateY(112%) rotate(4deg)}38%,62%{transform:none}100%{transform:translateY(-112%) rotate(-3deg)}}
+
+/* top bar */
+.topbar{position:fixed;z-index:30;top:calc(env(safe-area-inset-top,0px) + 30px);left:max(18px,env(safe-area-inset-left,0px));right:max(18px,env(safe-area-inset-right,0px));display:flex;justify-content:space-between;align-items:center;gap:12px;pointer-events:none}
+.topbar>*{pointer-events:auto}
+.mark{font:400 28px/1 var(--display);display:flex;gap:10px;align-items:baseline}
+.mark b{color:var(--red);font-weight:400}
+.mark small{font:700 18px var(--hand);color:var(--blue)}
+.back{display:inline-flex;gap:8px;align-items:center;padding:8px 16px;font:700 20px var(--hand);transition:transform .2s}
+.back:hover{animation:boil .25s steps(3) infinite}
+body[data-page="home"] .topbar .back{visibility:hidden}
+@media (max-width:560px){.mark small{display:none}}
+
+/* nav: a strip of paper with the current section circled in red pencil */
+.navwrap{position:fixed;z-index:40;left:50%;transform:translateX(-50%) rotate(-.6deg);bottom:calc(env(safe-area-inset-bottom,0px) + 22px);max-width:calc(100vw - 20px)}
+.nav{display:flex;gap:2px;padding:6px 10px}
+.nav button{position:relative;padding:8px 13px;font:700 21px/1 var(--hand);color:var(--soft);white-space:nowrap;transition:color .2s}
+.nav button:hover{color:var(--blue)}
+.nav button[aria-current="true"]{color:var(--graphite)}
+.nav button[aria-current="true"]::after{content:"";position:absolute;inset:0 -2px;border:2px solid var(--red);border-radius:50% 45% 55% 48%/55% 50% 45% 52%;transform:rotate(-3deg)}
+@media (max-width:960px){.nav button{padding:8px 8px;font-size:18px}}
+@media (max-width:599px){.navwrap{display:none}}
+
+/* buttons */
+.btn{position:relative;display:inline-flex;gap:12px;align-items:center;padding:14px 26px;font:700 25px/1 var(--hand);text-decoration:none;border:2px solid var(--graphite);border-radius:var(--wob);box-shadow:3px 4px 0 var(--graphite);transition:transform .15s,box-shadow .15s}
+.btn.blue{background:var(--blue);color:#fff}
+.btn.red{background:var(--red);color:#fff}
+.btn.plain{background:var(--sheet)}
+.btn:hover{animation:boil .25s steps(3) infinite}
+.btn:active{transform:translate(3px,4px);box-shadow:0 0 0 var(--graphite)}
+.link{font:700 22px var(--hand);color:var(--blue);text-decoration:none;border-bottom:2px solid currentColor;padding-bottom:1px}
+.link:hover{color:var(--red)}
+
+/* HOME */
+#home{display:flex;align-items:center}
+.home{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(24px,4vw,60px);align-items:center;width:100%}
+.hello{font:700 clamp(24px,2.4vw,30px) var(--hand);color:var(--blue);margin:0}
+.name{font-size:clamp(54px,8.6vw,128px);margin:4px 0 10px;letter-spacing:.01em}
+.name span{display:block}
+.name span:last-child{color:var(--blue)}
+.role{font:700 clamp(25px,2.7vw,36px)/1.15 var(--hand);color:var(--red);margin:0 0 6px}
+.tag{font-size:clamp(17px,1.5vw,20px);color:var(--soft);margin:0 0 26px}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center}
+.table{position:relative;padding:14px;transform:rotate(1.5deg)}
+.table video{display:block;width:100%;aspect-ratio:1376/576;object-fit:contain;mix-blend-mode:multiply;border-radius:6px}
+.note{position:absolute;font:700 22px/1.1 var(--hand);color:var(--red);white-space:nowrap}
+.note svg{position:absolute;overflow:visible}
+.n1{left:-6%;top:-34px;transform:rotate(-6deg)}
+.n2{right:2%;bottom:-38px;color:var(--blue);transform:rotate(3deg)}
+.sticky{margin-top:34px;padding:14px 18px;width:min(320px,100%);background:#e6edff var(--noise);border:2px solid var(--graphite);border-radius:4px 10px 6px 12px;transform:rotate(-2deg);box-shadow:3px 4px 0 var(--graphite);font:16px/1.7 var(--mono)}
+.sticky div{display:flex;justify-content:space-between;gap:10px}
+.sticky b{font-weight:700}
+.sticky .open{color:var(--red);animation:blink 1.2s steps(1) infinite}
+.xsheet{position:fixed;z-index:3;right:max(20px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 28px);font:700 15px var(--mono);color:var(--soft);font-variant-numeric:tabular-nums}
+.xsheet i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--red);margin-right:8px;animation:blink 1.2s steps(1) infinite}
+body:not([data-page="home"]) .xsheet{display:none}
+@media (max-width:860px){.home{grid-template-columns:1fr}.table{max-width:560px;margin-top:40px}.xsheet{display:none}.n1{left:6px;top:-32px}.n2{right:6px;bottom:-34px;white-space:normal;max-width:70%;text-align:right}}
+
+/* shared headings */
+.kicker{font:700 24px var(--hand);color:var(--red);margin:0 0 4px}
+.h-page{font-size:clamp(46px,7.4vw,100px);margin:0 0 22px}
+.h-page em{font-style:normal;color:var(--blue);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 20' preserveAspectRatio='none'%3E%3Cpath d='M4 14C60 6 120 4 296 9M30 17C110 11 190 10 280 14' fill='none' stroke='%23d7263d' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") 0 100%/100% .28em no-repeat;padding-bottom:.12em}
+.lede{font-size:clamp(18px,1.6vw,21px);max-width:60ch}
+.muted{color:var(--soft)}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:18px;margin-bottom:22px}
+.head .h-page{margin:0}
+.head p{max-width:40ch;margin:0}
+
+/* SHOWREEL */
+.reel-wrap{max-width:max(320px,calc((100vh - 360px) * 16 / 9));margin:0 auto;padding:12px;transform:rotate(-.6deg)}
+.reel-wrap video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#fff;border-radius:6px}
+.reel-info{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:16px 30px;max-width:1100px;margin:26px auto 0}
+.reel-info h2{font-size:clamp(40px,5.6vw,74px)}
+.reel-info p{margin:8px 0 0;max-width:54ch}
+.chips{display:flex;flex-wrap:wrap;gap:10px;list-style:none;padding:0;margin:0}
+.chips li,.chips span{padding:5px 14px;font:700 21px var(--hand);border:2px solid var(--graphite);border-radius:var(--wob);background:var(--sheet)}
+.chips.big span{font-size:26px;color:var(--blue)}
+
+/* ABOUT */
+.about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,70px);align-items:start}
+.polaroid{margin:0;padding:14px 14px 10px;transform:rotate(-2.5deg)}
+.polaroid img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%;border:1px solid var(--line)}
+.polaroid figcaption{font:700 26px var(--hand);text-align:center;padding-top:8px}
+.hook{font:700 clamp(25px,2.4vw,32px)/1.25 var(--hand);color:var(--blue);margin:0 0 18px!important}
+.about p{margin:0 0 14px;max-width:62ch}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:28px 0}
+.facts div{padding:16px 18px}
+.facts div:nth-child(odd){transform:rotate(-1deg)}
+.facts div:nth-child(even){transform:rotate(1.2deg)}
+.facts strong{display:block;font:400 clamp(44px,5vw,70px)/1 var(--display);color:var(--red);margin-bottom:6px}
+.facts span{font:700 15px/1.35 var(--body);text-transform:uppercase;letter-spacing:.04em}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.cols h3{font-size:28px;margin:0 0 12px;color:var(--blue)}
+.timeline{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.timeline li{display:grid;grid-template-columns:104px minmax(0,1fr);gap:12px;font-size:15.5px}
+.timeline .mono{font-size:12px;color:var(--soft);padding-top:3px}
+@media (max-width:820px){.about{grid-template-columns:1fr}.polaroid{max-width:400px}.cols{grid-template-columns:1fr}}
+@media (max-width:480px){.facts div{padding:12px}.timeline li{grid-template-columns:1fr;gap:0}}
+
+/* filters */
+.filters{display:flex;flex-wrap:wrap;gap:8px 10px;margin:0 0 26px}
+.filters button{padding:4px 14px;font:700 21px var(--hand);color:var(--soft);border:2px solid transparent;border-radius:var(--wob);transition:color .2s}
+.filters button:hover{color:var(--blue)}
+.filters button[aria-pressed="true"]{color:var(--graphite);border-color:var(--red)}
+.fade{animation:fadeIn .45s steps(5) both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}}
+
+/* WORK */
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:clamp(300px,30vw,400px);grid-auto-flow:dense;gap:26px 22px}
+.card{position:relative;display:flex;flex-direction:column;text-align:left;padding:12px 12px 14px;transition:transform .25s var(--ease),box-shadow .25s}
+.card:nth-child(3n+1){transform:rotate(-1.2deg)}
+.card:nth-child(3n+2){transform:rotate(.9deg)}
+.card:nth-child(3n){transform:rotate(-.4deg)}
+.card.w{grid-column:span 2}
+.card .ph{position:relative;flex:1;min-height:0;overflow:hidden;border:1px solid var(--line);border-radius:3px;background:#fff}
+.card .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.card .cap{display:flex;justify-content:space-between;align-items:end;gap:12px;padding-top:10px}
+.card h3{font-size:clamp(24px,2.3vw,32px)}
+.card .meta{font:700 19px/1.1 var(--hand);color:var(--blue);white-space:nowrap}
+.card .idx{position:absolute;top:18px;left:18px;z-index:2;padding:2px 8px;font:700 13px var(--mono);background:var(--sheet);border:1.5px solid var(--graphite);border-radius:3px}
+.card:hover,.card:focus-visible{transform:rotate(0) translateY(-4px);box-shadow:5px 8px 0 var(--graphite)}
+.card:hover .ph img{transform:scale(1.05)}
+.card:hover h3{animation:boil .25s steps(3) infinite;color:var(--red)}
+@media (max-width:999px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.card.x2{grid-column:span 2}}
+@media (max-width:640px){.grid{grid-template-columns:1fr;grid-auto-rows:320px}.card.w,.card.x2{grid-column:auto}}
+
+/* SKETCHBOOK gallery */
+.gallery{columns:3 260px;column-gap:22px}
+.tile{position:relative;display:block;width:100%;margin:0 0 24px;padding:10px 10px 8px;break-inside:avoid;text-align:left;transition:transform .25s var(--ease),box-shadow .25s}
+.tile:nth-child(4n+1){transform:rotate(-1.4deg)}
+.tile:nth-child(4n+2){transform:rotate(1deg)}
+.tile:nth-child(4n+3){transform:rotate(-.5deg)}
+.tile img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:2px}
+.tile .tcap{display:flex;justify-content:space-between;gap:10px;padding-top:6px;font:700 21px/1.15 var(--hand)}
+.tile .tcap span{color:var(--soft);font:700 12px var(--mono);white-space:nowrap;padding-top:6px}
+.tile:hover,.tile:focus-visible{transform:rotate(0) scale(1.02);box-shadow:5px 8px 0 var(--graphite);z-index:1}
+
+/* light table viewer */
+.lb{position:fixed;inset:0;z-index:48;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;background:radial-gradient(ellipse at center,#3b3f4d 0%,#16171c 70%);
+  padding:calc(env(safe-area-inset-top,0px) + 66px) max(12px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 24px) max(12px,env(safe-area-inset-left,0px))}
+.lb figure{margin:0;display:grid;justify-items:center;gap:12px;min-width:0;height:100%;align-content:center}
+.lb img{max-width:100%;max-height:calc(100vh - 180px);object-fit:contain;background:#fff;padding:10px;border-radius:4px;box-shadow:0 0 0 1px rgba(255,255,255,.4),0 0 60px rgba(255,251,220,.35);animation:fadeIn .35s steps(4)}
+.lb figcaption{display:flex;gap:16px;align-items:baseline;color:#e8e6dd;font:700 24px var(--hand)}
+.lb figcaption span{font:13px var(--mono);color:#b9b7ad}
+.lb-nav{width:52px;height:60px;font:700 34px var(--hand);color:var(--graphite)}
+.lb-x{position:absolute;top:calc(env(safe-area-inset-top,0px) + 18px);right:max(18px,env(safe-area-inset-right,0px));padding:6px 16px;font:700 22px var(--hand);color:var(--red)}
+@media (max-width:640px){.lb{grid-template-columns:1fr 1fr;grid-template-rows:minmax(0,1fr) auto}.lb figure{grid-column:1/-1;grid-row:1}.lb-nav{grid-row:2;justify-self:center}}
+
+/* CASE STUDY: a fresh sheet slides in from the right */
+.case{position:fixed;inset:0;z-index:45;background:var(--paper) var(--noise);overflow-y:auto;overscroll-behavior:contain;transform:translateX(102%) rotate(2deg);transition:transform .6s var(--ease);box-shadow:-20px 0 40px rgba(0,0,0,.15);
+  padding-top:calc(env(safe-area-inset-top,0px) + 30px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 130px);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.case.open{transform:none}
+.case-top{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px 0 14px;background:linear-gradient(var(--paper) 70%,transparent)}
+.case h2{font-size:clamp(44px,6.6vw,92px);margin:20px 0 18px}
+.meta3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:0 0 26px}
+.meta3 div{padding:12px 16px;min-width:0}
+.meta3 .hand{display:block;font-size:20px;font-weight:700;color:var(--blue);line-height:1.1}
+.case-text p{max-width:66ch;margin:0 0 14px;font-size:18px}
+.pnote{border-left:3px solid var(--red);padding-left:14px;color:var(--soft);font-size:15px}
+.reels{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:26px;margin:30px 0 22px}
+.reels figure{margin:0;padding:10px}
+.reels video{display:block;width:100%;height:auto;max-height:70vh;background:#fff;border-radius:4px}
+.reels figcaption{display:flex;justify-content:space-between;gap:10px;padding-top:8px;font:700 20px/1.2 var(--hand)}
+.reels figcaption span:last-child{font:13px var(--mono);color:var(--soft);padding-top:5px}
+.stills{columns:2 320px;column-gap:20px}
+.stills img{display:block;width:100%;height:auto;margin:0 0 20px;padding:8px;background:var(--sheet);border:2px solid var(--graphite);border-radius:var(--wob);box-shadow:2px 3px 0 var(--graphite);break-inside:avoid}
+.case-next{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:36px;border-top:2px dashed var(--line);padding-top:22px}
+.case-next button{text-align:left}
+.case-next button:hover strong{color:var(--red)}
+.case-next strong{display:block;font:400 30px/1.1 var(--display)}
+@media (max-width:640px){.meta3{grid-template-columns:1fr}}
+
+/* WRITING: entries in a ruled notebook */
+.posts{display:grid;gap:18px}
+.post{background:var(--sheet) repeating-linear-gradient(transparent 0 31px,#dfe6f6 31px 32px);border:2px solid var(--graphite);border-radius:var(--wob);box-shadow:2px 3px 0 var(--graphite);position:relative}
+.post summary{list-style:none;display:grid;grid-template-columns:200px minmax(0,1fr) auto;gap:18px;align-items:baseline;padding:20px 22px}
+.post summary::-webkit-details-marker{display:none}
+.when{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
+.when .mono{color:var(--soft);font-size:12px}
+.cat{padding:1px 10px;font:700 18px var(--hand);color:var(--red);border:1.5px solid var(--red);border-radius:var(--wob)}
+.post h3{font-size:clamp(25px,2.6vw,34px)}
+.post summary:hover h3{color:var(--blue)}
+.plus{font:700 34px/1 var(--hand);color:var(--red);transition:transform .3s var(--ease);display:inline-block}
+.post[open] .plus{transform:rotate(45deg)}
+.post-body{display:grid;grid-template-columns:200px minmax(0,1fr);gap:18px;padding:0 22px 22px}
+.post-body>div{max-width:64ch}
+.post-body p{margin:0 0 12px;line-height:32px}
+.post-body .tags{font:13px var(--mono);color:var(--soft);text-transform:uppercase;letter-spacing:.05em}
+.post.featured{border-color:var(--red);box-shadow:3px 4px 0 var(--red)}
+.post.featured summary{padding-top:44px}
+.post.featured h3{font-size:clamp(30px,3.4vw,46px)}
+.stamp{position:absolute;top:10px;right:18px;padding:2px 12px;font:700 20px var(--hand);color:#fff;background:var(--red);border-radius:var(--wob);transform:rotate(3deg)}
+@media (max-width:700px){.post summary{grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;padding:16px}.post summary .when{grid-column:1/-1}.post-body{grid-template-columns:1fr;padding:0 16px 18px}.post-body>span{display:none}}
+
+/* CONTACT */
+.contact-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px 40px;align-items:center}
+.brand{margin:0;width:clamp(200px,24vw,290px);transform:rotate(4deg)}
+.brand img{display:block;width:100%;height:auto;filter:drop-shadow(0 0 0 #fff) drop-shadow(3px 4px 0 rgba(37,37,43,.85))}
+.brand:hover img{animation:boil .25s steps(3) infinite}
+.big-mail{font:400 clamp(24px,4.2vw,56px)/1.1 var(--display);word-break:break-all;text-decoration:none;color:var(--blue)}
+.big-mail:hover{color:var(--red)}
+.copy{padding:4px 14px;font:700 20px var(--hand)}
+.contact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:36px}
+.contact-grid>div{padding:20px}
+.contact-grid>div:nth-child(odd){transform:rotate(-.6deg)}
+.contact-grid>div:nth-child(even){transform:rotate(.5deg)}
+.label{display:block;font:700 22px var(--hand);color:var(--red);margin-bottom:8px}
+.cform{display:grid;gap:12px}
+.cform label{display:grid;gap:4px;font:700 20px var(--hand)}
+.cform input,.cform textarea{width:100%;box-sizing:border-box;padding:8px 2px;font:17px var(--body);color:var(--graphite);background:transparent;border:0;border-bottom:2px solid var(--graphite);border-radius:0;outline:none}
+.cform input:focus,.cform textarea:focus{border-bottom-color:var(--blue)}
+.cform textarea{min-height:100px;resize:vertical;background:repeating-linear-gradient(transparent 0 27px,#dfe6f6 27px 28px)}
+.cform .btn{justify-self:start}
+.sent strong{display:block;font:700 26px var(--hand);color:var(--blue)}
+.socials{display:grid;gap:2px}
+.socials a{display:flex;justify-content:space-between;gap:12px;padding:8px 0;text-decoration:none;border-bottom:1.5px dashed var(--line);transition:padding .2s,color .2s}
+.socials a:hover{color:var(--blue);padding-left:8px}
+.socials a span:last-child{color:var(--red)}
+@media (max-width:700px){.contact-grid{grid-template-columns:1fr}.contact-head{grid-template-columns:1fr}.brand{order:-1;width:190px}}
+.vid-err{margin:8px 0 0;font:700 18px var(--hand);color:var(--red)}
+.vid-err a{color:var(--blue)}
+
+/* CV viewer */
+.cvv{position:fixed;inset:0;z-index:48;overflow-y:auto;overscroll-behavior:contain;background:rgba(37,37,43,.92);
+  padding:calc(env(safe-area-inset-top,0px) + 18px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 40px) max(16px,env(safe-area-inset-left,0px))}
+.cvv-top{position:sticky;top:0;z-index:1;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;max-width:900px;margin:0 auto;padding:8px 0 16px}
+.cvv-note{flex-basis:100%;margin:0;color:#e8e6dd;font-size:15px}
+.cvv img{display:block;width:100%;max-width:900px;height:auto;margin:0 auto;border-radius:4px;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+
+/* BOOT: a bouncing-ball flipbook while the pencils get sharpened */
+.boot{position:fixed;inset:0;z-index:49;display:grid;place-items:center;background:var(--paper) var(--noise)}
+.boot-in{width:min(440px,calc(100vw - 48px));display:grid;gap:14px}
+.boot-mark{font:400 60px/1 var(--display)}
+.boot-mark b{color:var(--red);font-weight:400}
+.boot-stage{position:relative;height:120px;border-bottom:2px solid var(--graphite)}
+.ball{position:absolute;left:0;bottom:0;width:26px;height:26px;border-radius:50%;background:var(--red);border:2px solid var(--graphite);animation:bounce 1.2s steps(1) infinite}
+@keyframes bounce{
+  0%{transform:translate(0,-90px)}8.3%{transform:translate(30px,-60px)}16.6%{transform:translate(60px,-18px)}25%{transform:translate(88px,2px) scale(1.4,.62)}
+  33.3%{transform:translate(118px,-30px) scale(.86,1.16)}41.6%{transform:translate(150px,-62px)}50%{transform:translate(182px,-74px)}58.3%{transform:translate(214px,-62px)}
+  66.6%{transform:translate(246px,-30px)}75%{transform:translate(276px,2px) scale(1.4,.62)}83.3%{transform:translate(306px,-30px) scale(.86,1.16)}91.6%{transform:translate(340px,-60px)}}
+.boot-line{font:700 26px var(--hand);color:var(--blue);margin:0}
+.boot-bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.boot-bar i{display:block;height:100%;width:0;background:var(--blue);animation:load 2.2s steps(24) forwards}
+@keyframes load{to{width:100%}}
+.boot-meta{display:flex;justify-content:space-between;font:13px var(--mono);color:var(--soft);font-variant-numeric:tabular-nums}
+
+/* MOBILE MENU: index cards */
+.menu-btn{display:none}
+.mnav{position:fixed;inset:0;z-index:47;display:grid;align-content:center;gap:12px;background:var(--paper) var(--noise);
+  padding:calc(env(safe-area-inset-top,0px) + 70px) max(24px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 100px) max(24px,env(safe-area-inset-left,0px))}
+.mnav button{display:flex;justify-content:space-between;align-items:baseline;padding:12px 20px;font:400 30px var(--display);text-align:left;animation:draw .45s steps(5) both;animation-delay:calc(var(--d,0) * 45ms)}
+.mnav button:nth-child(odd){transform:rotate(-1deg)}
+.mnav button:nth-child(even){transform:rotate(1deg)}
+.mnav button span{font:13px var(--mono);color:var(--soft)}
+.mnav button[aria-current="true"]{color:var(--red);border-color:var(--red)}
+@media (max-width:599px){
+  .menu-btn{display:grid;place-items:center;position:fixed;z-index:48;right:max(18px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 22px);width:60px;height:60px;transform:rotate(-4deg)}
+  .menu-btn svg{width:26px;height:26px}
+  .menu-btn[aria-expanded="true"]{color:var(--red)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+
+<div class="pegs" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="wipe" aria-hidden="true"><i data-f="01"></i><i data-f="02"></i><i data-f="03"></i><i data-f="04"></i></div>
+
+<div class="boot" id="boot" role="status" aria-label="Loading portfolio">
+  <div class="boot-in">
+    <div class="boot-mark">A<b>/</b>M</div>
+    <div class="boot-stage" aria-hidden="true"><span class="ball"></span></div>
+    <p class="boot-line">Sharpening pencils… A/M</p>
+    <div class="boot-bar"><i></i></div>
+    <div class="boot-meta"><span>v2026.11</span><span id="boot-pct">FR 00 / 24</span></div>
+  </div>
+</div>
+
+<header class="topbar">
+  <button class="back sheet" data-go="home" aria-label="Back to home">← Home</button>
+  <button class="mark" data-go="home" aria-label="Adwittiya Mondal, home">A<b>/</b>M <small>2D portfolio</small></button>
+</header>
+
+<div class="navwrap"><nav class="nav sheet" aria-label="Sections">
+  <button data-go="home">Home</button>
+  <button data-go="showreel">Reel</button>
+  <button data-go="about">About</button>
+  <button data-go="work">Work</button>
+  <button data-go="sketchbook">Sketchbook</button>
+  <button data-go="writing">Writing</button>
+  <button data-go="contact">Contact</button>
+</nav></div>
+<button class="menu-btn sheet" id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 6.5C9 5.6 15 5.8 20 6.3M4 12.2C10 11.6 14 11.9 20 12M4 17.8C9 17.3 15 17.6 20 17.4"/></svg></button>
+<nav class="mnav" id="mnav" aria-label="Sections" hidden>
+  <button class="sheet" data-go="home" style="--d:0">Home<span>01</span></button>
+  <button class="sheet" data-go="showreel" style="--d:1">Reel<span>02</span></button>
+  <button class="sheet" data-go="about" style="--d:2">About<span>03</span></button>
+  <button class="sheet" data-go="work" style="--d:3">Work<span>04</span></button>
+  <button class="sheet" data-go="sketchbook" style="--d:4">Sketchbook<span>05</span></button>
+  <button class="sheet" data-go="writing" style="--d:5">Writing<span>06</span></button>
+  <button class="sheet" data-go="contact" style="--d:6">Contact<span>07</span></button>
+</nav>
+
+<!-- HOME -->
+<section class="page" id="home" aria-label="Home" hidden>
+  <div class="wrap home">
+    <div>
+      <p class="hello rise" style="--d:0">Hi, I'm</p>
+      <h1 class="name rise" style="--d:1" tabindex="-1"><span>Adwittiya</span><span>Mondal</span></h1>
+      <p class="role rise" style="--d:2">Junior 2D Character Designer &amp; Storyboard Artist</p>
+      <p class="tag rise" style="--d:3">Turning ideas into visual stories</p>
+      <div class="cta-row rise" style="--d:4">
+        <button class="btn blue" data-go="showreel">Watch the reel →</button>
+        <button class="link" data-go="work">View work →</button>
+        <button class="link" data-cv>Download CV →</button>
+      </div>
+      <div class="sticky rise" style="--d:5">
+        <div><span>Status</span><b class="open">OPEN TO WORK</b></div>
+        <div><span>Based</span><b>Melbourne, AU</b></div>
+        <div><span>Draws in</span><b>Procreate · PS</b></div>
+      </div>
+    </div>
+    <div class="table sheet tape rise" style="--d:3">
+      <video class="hero-vid" src="../m/hero2d.mp4" poster="../m/hero2d.webp" autoplay muted loop playsinline aria-label="Looping animation of an orange blob character climbing out of a sketchbook and running"></video>
+      <span class="note n1" aria-hidden="true">squash &amp; stretch ↘</span>
+      <span class="note n2" aria-hidden="true">↖ anticipation, then the run</span>
+    </div>
+  </div>
+  <div class="xsheet"><i></i>X-SHEET <span id="tc">0000</span></div>
+</section>
+
+<!-- REEL -->
+<section class="page" id="showreel" aria-label="Animation reel" hidden>
+  <div class="wrap">
+    <p class="kicker rise" style="--d:0;text-align:center" tabindex="-1">the reel</p>
+    <div class="reel-wrap sheet tape rise" style="--d:1">
+      <video id="reel" src="../m/reel2d.mp4" poster="../m/reel2d.webp" controls preload="metadata" playsinline width="1280" height="720"></video>
+    </div>
+    <div class="reel-info rise" style="--d:2">
+      <div>
+        <h2>2D Reel <em style="font-style:normal;color:var(--blue)">2026</em></h2>
+        <p>Squash and stretch, a bounce into a walk-in, an idle loop, water effects and a hand-drawn sign-off, cut into 41 seconds.</p>
+      </div>
+      <div class="chips big"><span>Character</span><span>Storyboard</span><span>2D Animation</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="page" id="about" aria-label="About" hidden>
+  <div class="wrap about">
+    <figure class="polaroid sheet tape rise" style="--d:1">
+      <img src="../m/portrait.webp" alt="Adwittiya Mondal in a white coat, standing in falling snow" width="880" height="1100">
+      <figcaption>Adwittiya, Melbourne</figcaption>
+    </figure>
+    <div>
+      <p class="kicker rise" style="--d:0">about me</p>
+      <h2 class="h-page rise" style="--d:1" tabindex="-1">Hi, I'm <em>Adwittiya</em></h2>
+      <div class="rise" style="--d:2">
+        <p class="hook">I’ve been drawing since before I could read. Fine arts training since 2012 is what sits under every character I design.</p>
+        <p class="lede">I'm a junior 2D character designer and storyboard artist, and a CG Animation &amp; VFX graduate of Collarts in Melbourne.</p>
+        <p>I design characters from silhouette to turnaround, plan films as thumbnails, storyboards and colour scripts, and animate in 2D, from squash-and-stretch tests to an After Effects welcome video sent to more than 1,000 students.</p>
+        <p>Right now I'm art director and lighting artist on a 2-minute advocacy animation for Animal-Free Science Advocacy.</p>
+        <p style="margin-top:20px"><button class="btn red" data-cv>Download CV →</button></p>
+      </div>
+      <div class="facts rise" style="--d:3">
+        <div class="sheet"><strong>2012</strong><span>Fine arts training began</span></div>
+        <div class="sheet"><strong>1,000+</strong><span>Students welcomed by my Collarts video</span></div>
+        <div class="sheet"><strong>4</strong><span>Production roles held since 2023</span></div>
+        <div class="sheet"><strong>2</strong><span>Languages spoken</span></div>
+      </div>
+      <div class="cols rise" style="--d:4">
+        <div>
+          <h3>Skills</h3>
+          <ul class="chips">
+            <li>Character design</li><li>Turnarounds</li><li>Expression sheets</li><li>Storyboarding</li><li>Animatics</li>
+            <li>Colour scripts</li><li>2D animation</li><li>Scriptwriting</li><li>Traditional &amp; digital painting</li>
+          </ul>
+          <h3 style="margin-top:24px">Tools</h3>
+          <ul class="chips">
+            <li>Procreate</li><li>Photoshop</li><li>After Effects</li><li>Illustrator</li><li>Storyboarder</li><li>Premiere Pro</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Education</h3>
+          <ul class="timeline">
+            <li><span class="mono">2023 – 2026</span><span>Bachelor of CG Animation &amp; VFX<br><span class="muted">Australian College of the Arts (Collarts), Melbourne · Graduated</span></span></li>
+            <li><span class="mono">2022 – 2023</span><span>Bachelor of Fine Arts (Year 1)<br><span class="muted">Amity University, Kolkata</span></span></li>
+            <li><span class="mono">2012 – 2018</span><span>Diploma in Fine Arts<br><span class="muted">Pracheen Kala Kendra, Chandigarh</span></span></li>
+          </ul>
+          <h3 style="margin-top:24px">Certifications</h3>
+          <ul class="timeline">
+            <li><span class="mono">2022</span><span>Graphic Design &amp; 2D Animation<br><span class="muted">Arera Animations, India</span></span></li>
+            <li><span class="mono">2022</span><span>Python Programming<br><span class="muted">TechHub Solutions</span></span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="page" id="work" aria-label="Work" hidden>
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <p class="kicker rise" style="--d:0">selected work</p>
+        <h2 class="h-page rise" style="--d:1" tabindex="-1">The <em>Work</em></h2>
+      </div>
+      <p class="muted rise" style="--d:2">Characters, storyboards and animation. Open any project for the full breakdown.</p>
+    </div>
+    <div class="filters rise" style="--d:2" role="toolbar" aria-label="Filter projects" data-target="grid"><button data-f="all" aria-pressed="true">All</button><button data-f="char" aria-pressed="false">Character Design</button><button data-f="story" aria-pressed="false">Storyboards</button><button data-f="anim" aria-pressed="false">Animation</button><button data-f="study" aria-pressed="false">Studies &amp; Sketches</button></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- SKETCHBOOK -->
+<section class="page" id="sketchbook" aria-label="Sketchbook" hidden>
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <p class="kicker rise" style="--d:0">gallery</p>
+        <h2 class="h-page rise" style="--d:1" tabindex="-1">Sketch<em>book</em></h2>
+      </div>
+      <p class="muted rise" style="--d:2">Characters, illustration, storyboards and graphite studies. Tap any page to see it on the light table.</p>
+    </div>
+    <div class="filters rise" style="--d:2" role="toolbar" aria-label="Filter the sketchbook" data-target="gallery"><button data-f="all" aria-pressed="true">All</button><button data-f="ch" aria-pressed="false">Characters</button><button data-f="il" aria-pressed="false">Illustration</button><button data-f="env" aria-pressed="false">Environments &amp; Props</button><button data-f="sb" aria-pressed="false">Storyboards</button><button data-f="st" aria-pressed="false">Graphite Studies</button></div>
+    <div class="gallery rise" style="--d:3" id="gallery"></div>
+  </div>
+</section>
+
+<!-- WRITING -->
+<section class="page" id="writing" aria-label="Writing" hidden>
+  <div class="wrap">
+    <p class="kicker rise" style="--d:0">writing</p>
+    <h2 class="h-page rise" style="--d:1" tabindex="-1">Notes from the <em>desk</em></h2>
+    <p class="lede rise" style="--d:2;margin:0 0 30px">Short write-ups on the placements and projects behind the work.</p>
+    <div class="posts rise" style="--d:3">
+      <details class="post featured" open>
+        <span class="stamp">★ Featured</span>
+        <summary><span class="when"><span class="mono">Feb – Apr 2026</span><span class="cat">Placement</span></span><h3>A welcome video for 1,000+ new students</h3><span class="plus">+</span></summary>
+        <div class="post-body"><span></span><div>
+          <p class="tags">Industry placement · Collarts · Script, character design, animation</p>
+          <p>On my 75-hour Collarts industry placement I wrote, designed and animated the official student welcome video in After Effects. It went out to more than 1,000 incoming students.</p>
+          <p>I handled the pipeline from script to final render. My character design was approved by the LXD Team Lead, and my industry supervisor endorsed the placement.</p>
+          <button class="link" data-case="collarts">See the video →</button>
+        </div></div>
+      </details>
+      <details class="post">
+        <summary><span class="when"><span class="mono">Aug 2024 – now</span><span class="cat">Passion Project</span></span><h3>Designing bugs for a card game</h3><span class="plus">+</span></summary>
+        <div class="post-body"><span></span><div>
+          <p class="tags">2D character &amp; card assets</p>
+          <p>I'm designing original 2D characters and card assets for an independent bug card video game. The project is confidential, so the game art itself stays private for now. The insect paintings in my sketchbook come from the same interest.</p>
+          <button class="link" data-go="sketchbook">Open the sketchbook →</button>
+        </div></div>
+      </details>
+      <details class="post">
+        <summary><span class="when"><span class="mono">2025</span><span class="cat">Capstone</span></span><h3>Bugged Reality: planning a film on paper first</h3><span class="plus">+</span></summary>
+        <div class="post-body"><span></span><div>
+          <p class="tags">Capstone · Collarts</p>
+          <p>For my capstone I drew the bedroom set as a floor plan, then marked every camera position on it before any shot was boarded. The colour script came next. It moves from cold monitor blue into violet and red as the story turns.</p>
+          <p>The animatic carries the full timing and my sound design.</p>
+          <button class="link" data-case="bugged">Open the case study →</button>
+        </div></div>
+      </details>
+      <details class="post">
+        <summary><span class="when"><span class="mono">Jun 2026 – now</span><span class="cat">Internship</span></span><h3>Art directing a 2-minute advocacy film</h3><span class="plus">+</span></summary>
+        <div class="post-body"><span></span><div>
+          <p class="tags">Animal-Free Science Advocacy · Melbourne</p>
+          <p>I lead the visual identity and lighting for a 2-minute animation about animal-free science, working as art director, lighting artist and team coordinator at the same time.</p>
+          <p>The animatic is where we locked the story beats first, before animation, design and post-production moved together toward versions for social media and broadcast.</p>
+          <button class="link" data-case="nams">See the animatic →</button>
+        </div></div>
+      </details>
+      <details class="post">
+        <summary><span class="when"><span class="mono">Apr 2023</span><span class="cat">Scriptwriting</span></span><h3>Writing a short film for Opekha Films</h3><span class="plus">+</span></summary>
+        <div class="post-body"><span></span><div>
+          <p class="tags">Scriptwriter · Short film</p>
+          <p>I wrote the narrative structure, dialogue and scene direction for an Opekha Films short. Scriptwriting is still how I start most projects, including my Collarts welcome video.</p>
+        </div></div>
+      </details>
+      <details class="post">
+        <summary><span class="when"><span class="mono">2023 – now</span><span class="cat">Leadership</span></span><h3>Building community in Melbourne</h3><span class="plus">+</span></summary>
+        <div class="post-body"><span></span><div>
+          <p class="tags">Collarts · Communiteer</p>
+          <p>I founded and led the International Student Club at Collarts as president and peer mentor, supporting students academically and personally.</p>
+          <p>Since October 2025 I've been a Buddy Program Lead with Communiteer, helping newcomers settle in Melbourne. I received a Certificate of Recognition for outstanding peer contribution.</p>
+        </div></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="page" id="contact" aria-label="Contact" hidden>
+  <div class="wrap">
+    <div class="contact-head">
+      <div>
+        <p class="kicker rise" style="--d:0">contact</p>
+        <h2 class="h-page rise" style="--d:1" tabindex="-1">Let's make <em>something</em></h2>
+        <p class="lede rise" style="--d:2;margin:0 0 26px">I'm open to junior 2D character design, storyboard and animation roles, and to freelance projects.</p>
+      </div>
+      <figure class="brand rise" style="--d:2"><img src="../m/brand.png" alt="Adwittiya Mondal brand badge: illustrated self-portrait with 3D, 2D and VFX tags and signature" width="414" height="361"></figure>
+    </div>
+    <div class="rise" style="--d:3">
+      <a class="big-mail" id="mail" href="mailto:adwittiya.mondal.tiga018@gmail.com">adwittiya.mondal.tiga018@gmail.com</a>
+      <div style="margin-top:14px"><button class="copy sheet" data-copy="adwittiya.mondal.tiga018@gmail.com">Copy email</button></div>
+    </div>
+    <div class="contact-grid rise" style="--d:4">
+      <div class="sheet"><span class="label">Send a message</span>
+        <form class="cform" id="cform" novalidate>
+          <label for="cf-name">Name<input id="cf-name" name="name" autocomplete="name" required></label>
+          <label for="cf-email">Email<input id="cf-email" name="email" type="email" autocomplete="email" required></label>
+          <label for="cf-msg">Message<textarea id="cf-msg" name="message" required></textarea></label>
+          <p class="muted" id="cf-err" role="alert" style="margin:0;font-size:15px" hidden></p>
+          <button class="btn blue" type="submit">Send message →</button>
+        </form>
+        <div class="sent" id="cf-sent" role="status" hidden></div>
+      </div>
+      <div class="sheet"><span class="label">Based in</span><span style="font-size:20px">Melbourne, VIC · Australia</span>
+        <span class="label" style="margin-top:22px">Also see</span>
+        <a class="link" href="../3d/" target="_blank" rel="noopener">My 3D portfolio ↗</a>
+      </div>
+      <div class="sheet"><span class="label">Find me online</span>
+        <div class="socials">
+          <a href="https://www.linkedin.com/in/adwittiya-mondal-143154293" target="_blank" rel="noopener"><span>LinkedIn</span><span>↗</span></a>
+          <a href="https://adwittiya.artstation.com/" target="_blank" rel="noopener"><span>ArtStation</span><span>↗</span></a>
+          <a href="https://www.instagram.com/mermallade_at_night/" target="_blank" rel="noopener"><span>Instagram · @mermallade_at_night</span><span>↗</span></a>
+          <a href="https://amondal20230898.myportfolio.com/about-me" target="_blank" rel="noopener"><span>Adobe Portfolio</span><span>↗</span></a>
+        </div>
+      </div>
+      <div class="sheet"><span class="label">References</span>
+        <p style="margin:0 0 6px">Lucy J. Hayes · Discipline Lead, Animation, Film &amp; Performance, Collarts</p>
+        <p style="margin:0 0 6px">Yannis Yiyang Ye · Motion Graphic Designer / 3D Artist, Collarts</p>
+        <p style="margin:0 0 6px">Jack Shand · Motion Designer, 3D Artist, ANIMO Gaming</p>
+        <p style="margin:0 0 10px">Sam Hall · Senior Business Recruiter, PTW Japan</p>
+        <p class="muted" style="margin:0;font-size:15px">Contact details available on request.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY -->
+<div class="case" id="case" role="dialog" aria-modal="true" aria-labelledby="case-title" hidden>
+  <div class="wrap">
+    <div class="case-top">
+      <button class="back sheet" id="case-close">← All work</button>
+      <span class="mono muted" id="case-pos"></span>
+    </div>
+    <div id="case-body"></div>
+  </div>
+</div>
+
+<!-- CV VIEWER -->
+<div class="cvv" id="cvv" role="dialog" aria-modal="true" aria-label="Curriculum vitae" hidden>
+  <div class="cvv-top">
+    <button class="back sheet" id="cv-x">← Close CV</button>
+    <span id="cv-dlwrap"><a class="btn red" href="../Adwittiya_Mondal_CV.pdf" download>Download PDF ↓</a></span>
+    <p class="cvv-note" id="cv-note" role="status" hidden></p>
+  </div>
+  <img src="../m/cv.webp" width="1655" height="2340" loading="lazy" alt="Adwittiya Mondal's CV: profile, production experience, freelance design, leadership, education, skills, software and certifications">
+</div>
+
+<!-- LIGHT TABLE VIEWER -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Sketchbook viewer" hidden>
+  <button class="lb-x sheet" id="lb-x">Close ✕</button>
+  <button class="lb-nav sheet" id="lb-prev" aria-label="Previous page">‹</button>
+  <figure><img id="lb-img" alt=""><figcaption><b id="lb-cap"></b><span id="lb-n"></span></figcaption></figure>
+  <button class="lb-nav sheet" id="lb-next" aria-label="Next page">›</button>
+</div>
+
+<script>
+const M = {"anim":[{"t":"v","s":"../m/new/blob.mp4","p":"../m/new/blob.webp","w":1280,"h":536,"d":12,"cap":"Blob character: from the sketchbook page to a run"},{"t":"v","s":"../m/new/ballwalk.mp4","p":"../m/new/ballwalk.webp","w":832,"h":576,"d":8,"cap":"Ball bounce into a stick-figure walk-in"},{"t":"v","s":"../m/new/mermaid.mp4","p":"../m/new/mermaid.webp","w":1024,"h":576,"d":7,"cap":"Character idle loop"},{"t":"v","s":"../m/new/splash.mp4","p":"../m/new/splash.webp","w":896,"h":512,"d":4,"cap":"Water splash effects loop"},{"t":"v","s":"../m/new/drop.mp4","p":"../m/new/drop.webp","w":1280,"h":894,"d":5,"cap":"Water drop, splash and signature"},{"t":"v","s":"../m/new/peek.mp4","p":"../m/new/peek.webp","w":832,"h":576,"d":4,"cap":"Peek-in pencil test"}],"reel":{"d":41},"new":{"courage_artist":{"t":"i","s":"../m/new/courage_artist.webp","w":1600,"h":1117},"courage_y2k":{"t":"i","s":"../m/new/courage_y2k.webp","w":1600,"h":1117},"courage_tv":{"t":"i","s":"../m/new/courage_tv.webp","w":1559,"h":1111},"crossover":{"t":"i","s":"../m/new/crossover.webp","w":1600,"h":1127},"props":{"t":"i","s":"../m/new/props.webp","w":1600,"h":1117},"town":{"t":"i","s":"../m/new/town.webp","w":1600,"h":1117},"catgirl":{"t":"i","s":"../m/new/catgirl.webp","w":688,"h":1024},"poses":{"t":"i","s":"../m/new/poses.webp","w":1317,"h":1011},"rainbow":{"t":"i","s":"../m/new/rainbow.webp","w":1600,"h":1117},"shapes":{"t":"i","s":"../m/new/shapes.webp","w":1600,"h":1117},"daisycac":{"t":"i","s":"../m/new/daisycac.webp","w":1600,"h":1117}},"art":[{"t":"i","s":"../m/art/00.webp","w":914,"h":1280},{"t":"i","s":"../m/art/01.webp","w":1200,"h":1200},{"t":"i","s":"../m/art/02.webp","w":1200,"h":1600},{"t":"i","s":"../m/art/03.webp","w":1600,"h":1199},{"t":"i","s":"../m/art/04.webp","w":1600,"h":1131},{"t":"i","s":"../m/art/05.webp","w":1280,"h":914},{"t":"i","s":"../m/art/06.webp","w":1280,"h":1600},{"t":"i","s":"../m/art/07.webp","w":707,"h":875},{"t":"i","s":"../m/art/08.webp","w":719,"h":900},{"t":"i","s":"../m/art/09.webp","w":1600,"h":1117},{"t":"i","s":"../m/art/10.webp","w":1135,"h":790},{"t":"i","s":"../m/art/11.webp","w":736,"h":1308},{"t":"i","s":"../m/art/12.webp","w":931,"h":1600},{"t":"i","s":"../m/art/13.webp","w":617,"h":902},null,{"t":"i","s":"../m/art/15.webp","w":1280,"h":1600},{"t":"i","s":"../m/art/16.webp","w":1000,"h":1000},{"t":"i","s":"../m/art/17.webp","w":360,"h":504},{"t":"i","s":"../m/art/18.webp","w":602,"h":410},{"t":"i","s":"../m/art/19.webp","w":1233,"h":988},{"t":"i","s":"../m/art/20.webp","w":1304,"h":1282},{"t":"i","s":"../m/art/21.webp","w":1096,"h":1053},{"t":"i","s":"../m/art/22.webp","w":1600,"h":900},{"t":"i","s":"../m/art/23.webp","w":1600,"h":1200}],"characters":[{"t":"i","s":"../m/characters/00.webp","w":1600,"h":900},{"t":"i","s":"../m/characters/01.webp","w":1600,"h":900},{"t":"i","s":"../m/characters/02.webp","w":1600,"h":900},{"t":"i","s":"../m/characters/03.webp","w":1600,"h":900},{"t":"i","s":"../m/characters/04.webp","w":1600,"h":900},{"t":"i","s":"../m/characters/05.webp","w":1600,"h":900},{"t":"i","s":"../m/characters/06.webp","w":1600,"h":1117},{"t":"i","s":"../m/characters/07.webp","w":768,"h":512},{"t":"i","s":"../m/characters/08.webp","w":1055,"h":1600},{"t":"i","s":"../m/characters/09.webp","w":1600,"h":1117},{"t":"i","s":"../m/characters/10.webp","w":500,"h":700},{"t":"i","s":"../m/characters/11.webp","w":500,"h":700},{"t":"i","s":"../m/characters/12.webp","w":500,"h":700},null,null],"bugged":[{"t":"v","s":"../m/bugged/00.mp4","p":"../m/bugged/00.webp","w":1280,"h":720,"d":143},null,null,null,null,{"t":"i","s":"../m/bugged/05.webp","w":1000,"h":697},{"t":"i","s":"../m/bugged/06.webp","w":1007,"h":714},{"t":"i","s":"../m/bugged/07.webp","w":1018,"h":736},{"t":"i","s":"../m/bugged/08.webp","w":1021,"h":759},{"t":"i","s":"../m/bugged/09.webp","w":1086,"h":705},{"t":"i","s":"../m/bugged/10.webp","w":1093,"h":783},{"t":"i","s":"../m/bugged/11.webp","w":590,"h":736},{"t":"i","s":"../m/bugged/12.webp","w":1100,"h":1274},{"t":"i","s":"../m/bugged/13.webp","w":1600,"h":1254},{"t":"i","s":"../m/bugged/14.webp","w":1104,"h":636}],"nams":[{"t":"v","s":"../m/nams/00.mp4","p":"../m/nams/00.webp","w":1280,"h":720,"d":138}],"collarts":[{"t":"v","s":"../m/collarts/00.mp4","p":"../m/collarts/00.webp","w":1280,"h":720,"d":164},{"t":"v","s":"../m/collarts/01.mp4","p":"../m/collarts/01.webp","w":1280,"h":720,"d":5},{"t":"v","s":"../m/collarts/02.mp4","p":"../m/collarts/02.webp","w":1280,"h":720,"d":4}],"experiments":[null,null,null,{"t":"i","s":"../m/experiments/03.webp","w":735,"h":717},null,{"t":"i","s":"../m/experiments/05.webp","w":1600,"h":1118},{"t":"v","s":"../m/experiments/06.mp4","p":"../m/experiments/06.webp","w":1280,"h":894,"d":4},null,null,null,null,null]};
+const pick = (k, idx) => idx.map(i => M[k][i]);
+const N = k => M.new[k];
+const P = [
+ {id:'anim', cat:'anim', w:1, title:'Animation Tests', year:'2024 – 2026', kind:'2D animation', role:'Animator', tools:'Procreate · After Effects', media:M.anim, cover:0,
+  cap:M.anim.map(a => a.cap),
+  text:['Short hand-drawn tests, each built around one principle.','An orange blob climbs out of a sketchbook with squash and stretch and anticipation before it runs. A red ball bounces into a stick-figure walk-in. A character holds an idle loop, a pool of water splashes as an effects loop, and a single drop lands and turns into my signature.']},
+ {id:'collarts', cat:'anim char', title:'Collarts Welcome Video', year:'2026', kind:'Industry placement', role:'Scriptwriter, character designer, animator', tools:'After Effects', media:M.collarts, cover:0,
+  cap:['Final video','Animated asset','Motion graphic'],
+  text:['The official welcome video for Collarts Online, sent to more than 1,000 incoming students.','I wrote the script, designed the neon line character and animated it in After Effects, taking it from script to final render. The LXD Team Lead approved the character design.']},
+ {id:'bugged', cat:'story', w:1, title:'Bugged Reality', year:'2025', kind:'Capstone film', role:'Writer, storyboard, character design, colour script, animatic &amp; sound design', tools:'Storyboard · Colour script · Sound', media:pick('bugged', [0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]), cover:2,
+  cap:['Storyboard animatic with sound design'],
+  text:['My Collarts capstone: a boy, a bedroom, a monitor and a glitch that won\'t stay on the screen.','I planned the room as a real set first, with floor plans marking furniture and every camera position. The colour script shifts from cold monitor blue to violet and red as the story turns, and the animatic locks the timing and sound.']},
+ {id:'nams', cat:'story', title:'Advocacy Film Animatic', year:'2026', kind:'Internship', role:'Art Director &amp; Lighting Artist', tools:'Storyboarder', media:M.nams, cover:0,
+  cap:['Animatic, 2 min 18 s'],
+  text:['A 2-minute animation for Animal-Free Science Advocacy about moving research away from animal testing. It follows the lab, the researcher and the patient.','This animatic set the story beats and timing before production began.']},
+ {id:'fantasy', cat:'char', title:'Russian Fantasy Cast', year:'2024', kind:'Character design', role:'Character designer', tools:'Digital painting', media:pick('characters', [0, 1, 2, 3, 4, 5]).concat([N('props')]), cover:1,
+  text:['A cast for a Russian medieval fantasy: Ivan, Princess Amelia, Baba Yelena, Katrina Drakova and Pumpy, each with a written profile, colour palette and props.','The last page is the props sheet: a blade, a royal banner, a trophy and a ring.']},
+ {id:'daisycac', cat:'char', title:'Mr Daisy &amp; Ms Cac', year:'2024', kind:'Character design', role:'Character designer', tools:'Digital drawing', media:[N('daisycac'), N('shapes')], cover:0,
+  text:['Two plant characters, designed shape first.','I explored cactus and indoor-plant silhouettes as pure black shapes, so each read instantly, then built the final pair with their traits written beside them.']},
+ {id:'originals', cat:'char', title:'Original Characters', year:'2024 – 2026', kind:'Character design', role:'Character designer', tools:'Procreate · Photoshop', media:pick('characters', [6, 7, 8, 9]).concat([N('catgirl'), N('rainbow')]), cover:0,
+  text:['Characters of my own: Mana with a full turnaround and palette, a professor of bugs, an elf ranger, a sweaking mango, a cat-girl with a bat, and a rainbow-haired girl.']},
+ {id:'studies', cat:'study', title:'Expression &amp; Pose Studies', year:'2022 – 2024', kind:'Studies', role:'Artist', tools:'Pencil · Digital', media:pick('art', [19, 20, 21, 22, 23]).concat([N('poses')]), cover:0,
+  text:['The drills behind the characters: dog expression sheets, a running dog, a page of cartoon hand poses and simple pose mannequins.']},
+ {id:'experiments', cat:'study', x2:1, title:'Fan Art &amp; Experiments', year:'2022 – 2025', kind:'Practice', role:'Personal practice', tools:'Procreate · 2D animation', media:[M.experiments[6], N('courage_artist'), N('courage_tv'), N('courage_y2k'), N('crossover'), M.experiments[3], M.experiments[5]], cover:1,
+  cap:['Animation test'],
+  note:'Fan art made for practice. All characters belong to their respective owners.',
+  text:['Practice pieces with characters I grew up with: Courage the Cowardly Dog in a few scenes, a crossover, a chibi, and a short animation test.']},
+];
+/* Sketchbook gallery: [manifest key or 'new', index or key, title, category] */
+const SB = [
+ ['new','catgirl','Cat-girl','ch'], ['art',6,'Neon portrait','il'], ['new','rainbow','Rainbow hair','il'], ['characters',6,'Mana, turnaround','ch'],
+ ['art',9,'Sunset meadow','env'], ['new','town','Medieval town','env'], ['characters',8,'Elf ranger','ch'], ['art',1,'Eye study','il'],
+ ['new','props','Fantasy props','env'], ['art',18,'Forest sequence thumbnails','sb'], ['characters',10,'Cicada','il'], ['art',16,'Girl with a camera','il'],
+ ['bugged',6,'Colour script: the room at night','sb'], ['characters',11,'Ladybird','il'], ['art',3,'Still life with teapot','il'], ['characters',7,'Professor of Bugs','ch'],
+ ['art',2,'Bearded man, graphite','st'], ['art',10,'Fireworks night','env'], ['art',4,'Tabby cat','il'], ['bugged',8,'Colour script: at the desk','sb'],
+ ['characters',12,'Ant','il'], ['art',8,'Sadhu, graphite','st'], ['art',11,'Deer in the leaves','il'], ['art',13,'Hands, graphite','st'],
+ ['art',15,'Dream until it\'s your reality','il'], ['bugged',11,'Scene layout','sb'], ['art',12,'Sleeping child','il'], ['art',17,'Golden afternoon','ch'],
+ ['art',0,'Portrait study','il'], ['art',7,'Eyes through the fence','st'], ['characters',9,'Sweaking mango','ch'], ['art',5,'Candle','il'],
+].map(([k, i, title, cat]) => ({...(k === 'new' ? M.new[i] : M[k][i]), title, cat}));
+
+const byId = Object.fromEntries(P.map(p => [p.id, p]));
+const coverOf = m => m.t === 'v' ? m.p : m.s;
+const plural = (n, w) => n ? `${n} ${w}${n > 1 ? 's' : ''}` : '';
+const pad = n => String(n).padStart(2, '0');
+
+document.getElementById('grid').innerHTML = P.map((p, i) => {
+  const v = p.media.filter(m => m.t === 'v').length, s = p.media.length - v;
+  return `<button class="card sheet${p.w ? ' w' : ''}${p.x2 ? ' x2' : ''}" data-case="${p.id}" data-cat="${p.cat}">
+    <span class="idx">${pad(i + 1)}</span>
+    <span class="ph"><img src="${coverOf(p.media[p.cover])}" alt="" loading="${i < 6 ? 'eager' : 'lazy'}"></span>
+    <span class="cap"><span><h3>${p.title}</h3><span class="muted" style="font-size:14px">${p.year} · ${[plural(v, 'clip'), plural(s, 'page')].filter(Boolean).join(' · ')}</span></span><span class="meta">${p.kind}</span></span></button>`;
+}).join('');
+
+const gallery = document.getElementById('gallery');
+gallery.innerHTML = SB.map((a, i) => `<button class="tile sheet" data-lb="${i}" data-cat="${a.cat}">
+  <img src="${a.s}" width="${a.w}" height="${a.h}" loading="lazy" alt="${a.title.replace(/"/g, '&quot;')}">
+  <span class="tcap">${a.title}<span>p.${pad(i + 1)}</span></span></button>`).join('');
+
+/* section switching with the flipbook riffle */
+const NAVS = ['home', 'showreel', 'about', 'work', 'sketchbook', 'writing', 'contact'];
+const pages = [...document.querySelectorAll('.page')], wipe = document.querySelector('.wipe');
+const hero = document.querySelector('.hero-vid'), reel = document.getElementById('reel');
+const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let current = null, busy = false;
+function show(id) {
+  pages.forEach(p => { p.hidden = p.id !== id; p.classList.toggle('enter', p.id === id); });
+  document.body.dataset.page = id;
+  document.querySelectorAll('.nav button,.mnav button').forEach(b => b.setAttribute('aria-current', b.dataset.go === id));
+  if (id !== 'showreel') reel.pause();
+  const pg = document.getElementById(id); pg.scrollTop = 0;
+  (pg.querySelector('[tabindex="-1"]') || pg).focus({preventScroll: true});
+  if (id === 'home' && !still) hero.play().catch(() => {}); else hero.pause();
+  current = id;
+}
+function go(id) {
+  if (id === current || busy || !document.getElementById(id)) return;
+  closeCase(true); closeLb(); closeMenu(); closeCv();
+  if (still) return show(id);
+  busy = true;
+  wipe.classList.remove('run'); void wipe.offsetWidth; wipe.classList.add('run');
+  setTimeout(() => show(id), 480);
+  setTimeout(() => { wipe.classList.remove('run'); busy = false; }, 1080);
+}
+
+/* case study */
+const caseEl = document.getElementById('case'), caseBody = document.getElementById('case-body');
+let opener = null, closeTimer;
+function openCase(id) {
+  const p = byId[id], i = P.indexOf(p), next = P[(i + 1) % P.length], prev = P[(i - 1 + P.length) % P.length];
+  const cap = j => (p.cap && p.cap[j]) || '';
+  const vids = p.media.map((m, j) => m.t === 'v' ? `<figure class="sheet"><video controls preload="none" playsinline poster="${m.p}" src="${m.s}" width="${m.w}" height="${m.h}"></video>
+      <figcaption><span>${cap(j)}</span><span>${Math.floor(m.d / 60)}:${pad(m.d % 60)}</span></figcaption></figure>` : '').join('');
+  const imgs = p.media.map((m, j) => m.t === 'i' ? `<img src="${m.s}" width="${m.w}" height="${m.h}" loading="lazy" alt="${p.title.replace(/&amp;/g,'&')}, page ${j + 1}">` : '').join('');
+  caseBody.innerHTML = `<h2 id="case-title" tabindex="-1">${p.title}</h2>
+    <div class="meta3"><div class="sheet"><span class="hand">Year · Type</span>${p.year} · ${p.kind}</div><div class="sheet"><span class="hand">My role</span>${p.role}</div><div class="sheet"><span class="hand">Tools</span>${p.tools}</div></div>
+    <div class="case-text">${p.text.map(t => `<p>${t}</p>`).join('')}${p.note ? `<p class="pnote">${p.note}</p>` : ''}</div>
+    ${vids ? `<div class="reels">${vids}</div>` : ''}<div class="stills" style="margin-top:${vids ? 0 : 30}px">${imgs}</div>
+    <div class="case-next"><button data-case="${prev.id}"><span class="hand muted" style="font-size:20px">← Previous</span><strong>${prev.title}</strong></button>
+    <button data-case="${next.id}" style="text-align:right"><span class="hand muted" style="font-size:20px">Next →</span><strong>${next.title}</strong></button></div>`;
+  document.getElementById('case-pos').textContent = `SC ${pad(i + 1)} / ${pad(P.length)}`;
+  clearTimeout(closeTimer);
+  if (caseEl.hidden) opener = document.activeElement;
+  caseEl.hidden = false; caseEl.scrollTop = 0;
+  requestAnimationFrame(() => requestAnimationFrame(() => caseEl.classList.add('open')));
+  document.getElementById('case-title').focus({preventScroll: true});
+}
+function closeCase(now) {
+  if (caseEl.hidden) return;
+  caseEl.classList.remove('open');
+  const done = () => { caseEl.hidden = true; caseBody.innerHTML = ''; };
+  if (now || still) done(); else closeTimer = setTimeout(done, 620);
+  if (!now && opener) opener.focus({preventScroll: true});
+}
+
+/* light table: steps through the pages the current filter shows */
+const lb = document.getElementById('lb'), lbImg = document.getElementById('lb-img');
+let lbI = 0, lbOpener = null;
+const visible = () => [...gallery.children].filter(el => !el.hidden).map(el => +el.dataset.lb);
+function stepLb(dir) { const v = visible(); openLb(v[(v.indexOf(lbI) + dir + v.length) % v.length]); }
+function openLb(i) {
+  lbI = i;
+  const a = SB[lbI], v = visible();
+  lbImg.src = a.s; lbImg.alt = a.title; lbImg.style.animation = 'none'; void lbImg.offsetWidth; lbImg.style.animation = '';
+  document.getElementById('lb-cap').textContent = a.title;
+  document.getElementById('lb-n').textContent = `p.${pad(lbI + 1)} · ${v.indexOf(lbI) + 1} / ${v.length}`;
+  if (lb.hidden) { lbOpener = document.activeElement; lb.hidden = false; document.getElementById('lb-x').focus(); }
+}
+function closeLb() { if (lb.hidden) return; lb.hidden = true; if (lbOpener) lbOpener.focus({preventScroll: true}); }
+
+/* CV viewer; the PDF download uses the page's downloads permission when this view offers it */
+const cvv = document.getElementById('cvv'), cvNote = document.getElementById('cv-note'), cvWrap = document.getElementById('cv-dlwrap');
+let dl = null, cvOpener = null;
+window.claude?.use?.('downloads').then(d => { dl = d; cvWrap.hidden = !d; }).catch(() => {});
+function openCv() { cvOpener = document.activeElement; closeMenu(); cvv.hidden = false; cvv.scrollTop = 0; document.getElementById('cv-x').focus(); }
+function closeCv() { if (cvv.hidden) return; cvv.hidden = true; cvNote.hidden = true; if (cvOpener) cvOpener.focus({preventScroll: true}); }
+function note(msg) { cvNote.textContent = msg; cvNote.hidden = false; }
+async function saveCv() {
+  try {
+    const blob = await (await fetch('../Adwittiya_Mondal_CV.pdf')).blob();
+    await dl.save({filename: '../Adwittiya_Mondal_CV.pdf', data: blob});
+    note('CV saved.');
+  } catch (e) {
+    if (e && e.code === 'declined') return;
+    if (e && e.code === 'rate_limited') return note('A save prompt is already open. Try again in a moment.');
+    cvWrap.hidden = true;
+    note('Downloading isn\'t available in this view. You can still read the full CV here.');
+  }
+}
+
+/* filters (work grid + sketchbook) */
+function filterBy(btn) {
+  const bar = btn.parentElement, f = btn.dataset.f, box = document.getElementById(bar.dataset.target);
+  bar.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b === btn));
+  [...box.children].forEach(el => {
+    const ok = f === 'all' || el.dataset.cat.split(' ').includes(f);
+    el.hidden = !ok;
+    if (ok && !still) { el.classList.remove('fade'); void el.offsetWidth; el.classList.add('fade'); }
+  });
+}
+
+/* mobile menu */
+const mnav = document.getElementById('mnav'), menuBtn = document.getElementById('menu-btn');
+function openMenu() { mnav.hidden = false; menuBtn.setAttribute('aria-expanded', true); menuBtn.setAttribute('aria-label', 'Close menu'); mnav.querySelector('button').focus(); }
+function closeMenu() { if (mnav.hidden) return; mnav.hidden = true; menuBtn.setAttribute('aria-expanded', false); menuBtn.setAttribute('aria-label', 'Open menu'); }
+
+/* contact form: no backend, so it hands the message to the visitor's email app */
+const form = document.getElementById('cform'), sent = document.getElementById('cf-sent'), err = document.getElementById('cf-err');
+const ME = 'adwittiya.mondal.tiga018@gmail.com';
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const name = form.name.value.trim(), email = form.email.value.trim(), msg = form.message.value.trim();
+  const bad = !name ? 'Add your name.' : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? 'Add a valid email address so I can reply.' : !msg ? 'Write a short message.' : '';
+  err.textContent = bad; err.hidden = !bad;
+  if (bad) return;
+  const a = document.createElement('a');
+  a.href = `mailto:${ME}?subject=${encodeURIComponent('Portfolio enquiry from ' + name)}&body=${encodeURIComponent(msg + '\n\n— ' + name + ' (' + email + ')')}`;
+  a.target = '_blank'; a.rel = 'noopener'; a.click();
+  sent.innerHTML = '';
+  const s = document.createElement('strong'); s.textContent = `Thanks, ${name}!`;
+  const p = document.createElement('p'); p.style.margin = '6px 0 0';
+  p.textContent = `Your email app should open with the message ready to send. If it didn't, email ${ME} directly.`;
+  sent.append(s, p); sent.hidden = false; form.hidden = true;
+});
+
+/* video rescue: some browsers can't stream files from the host, so on an error or a stall the video is downloaded whole and played from memory */
+function rescue(v) {
+  if (v.dataset.rescued) return;
+  v.dataset.rescued = '1';
+  const wasPlaying = !v.paused || v.autoplay;
+  fetch(v.currentSrc || v.src).then(r => { if (!r.ok) throw new Error(r.status); return r.blob(); })
+    .then(b => { v.src = URL.createObjectURL(new Blob([b], {type: 'video/mp4'})); v.load(); if (wasPlaying) v.play().catch(() => {}); })
+    .catch(() => {
+      if (v.classList.contains('hero-vid')) return;
+      const n = document.createElement('p');
+      n.className = 'vid-err';
+      n.innerHTML = 'This video can\'t play on this device. <a href="https://amondal20230898.myportfolio.com/about-me" target="_blank" rel="noopener">See my work on Adobe Portfolio ↗</a>';
+      v.insertAdjacentElement('afterend', n);
+    });
+}
+document.addEventListener('error', e => { if (e.target.tagName === 'VIDEO') rescue(e.target); }, true);
+document.addEventListener('play', e => {
+  const v = e.target;
+  if (v.tagName !== 'VIDEO' || v.dataset.rescued) return;
+  setTimeout(() => { if (!v.paused && v.currentTime < 0.1 && v.readyState < 3) rescue(v); }, 4000);
+}, true);
+document.querySelectorAll('video').forEach(v => { if (v.error) rescue(v); });
+
+/* one delegated click handler */
+document.addEventListener('click', e => {
+  const t = e.target, g = t.closest('[data-go]'), c = t.closest('[data-case]'), cp = t.closest('[data-copy]'), l = t.closest('[data-lb]'), f = t.closest('[data-f]');
+  if (g) go(g.dataset.go);
+  else if (c) openCase(c.dataset.case);
+  else if (l) openLb(+l.dataset.lb);
+  else if (f) filterBy(f);
+  else if (cp) {
+    const done = () => { cp.textContent = 'Copied!'; setTimeout(() => cp.textContent = 'Copy email', 1600); };
+    const sel = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('mail')); getSelection().removeAllRanges(); getSelection().addRange(r); };
+    try { navigator.clipboard.writeText(cp.dataset.copy).then(done, sel); } catch { sel(); }
+  }
+  if (t.closest('[data-cv]')) openCv();
+  if (t.closest('#cv-x')) closeCv();
+  if (t.closest('#cv-dl')) saveCv();
+  if (t.closest('#case-close')) closeCase();
+  if (t.closest('#lb-x') || t === lb) closeLb();
+  if (t.closest('#lb-prev')) stepLb(-1);
+  if (t.closest('#lb-next')) stepLb(1);
+  if (t.closest('#menu-btn')) mnav.hidden ? openMenu() : closeMenu();
+});
+document.addEventListener('keydown', e => {
+  if (!lb.hidden) {
+    if (e.key === 'ArrowLeft') stepLb(-1);
+    else if (e.key === 'ArrowRight') stepLb(1);
+    else if (e.key === 'Escape') closeLb();
+    return;
+  }
+  if (e.key !== 'Escape') return;
+  if (!cvv.hidden) closeCv(); else if (!mnav.hidden) closeMenu(); else if (!caseEl.hidden) closeCase(); else if (current !== 'home') go('home');
+});
+
+/* x-sheet frame counter, 24 fps */
+const tc = document.getElementById('tc'), t0 = performance.now();
+(function tick() {
+  if (current === 'home') tc.textContent = String(Math.floor((performance.now() - t0) / 1000 * 24) % 10000).padStart(4, '0');
+  requestAnimationFrame(tick);
+})();
+
+/* boot flipbook, then riffle into the first section */
+const start = location.hash.slice(1), first = NAVS.includes(start) ? start : 'home';
+const boot = document.getElementById('boot'), pct = document.getElementById('boot-pct'), bootMs = still ? 300 : 2400, b0 = performance.now();
+(function count() {
+  const k = Math.min(1, (performance.now() - b0) / (bootMs - 200));
+  pct.textContent = `FR ${pad(Math.round(k * 24))} / 24`;
+  if (k < 1) requestAnimationFrame(count);
+})();
+setTimeout(() => {
+  if (still) { boot.remove(); return show(first); }
+  busy = true;
+  wipe.classList.add('run');
+  setTimeout(() => { boot.remove(); show(first); }, 480);
+  setTimeout(() => { wipe.classList.remove('run'); busy = false; }, 1080);
+}, bootMs);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Adwittiya Mondal · 2D Animator</title>
+<meta name="description" content="Portfolio of Adwittiya Mondal, 2D animator in Melbourne: character animation, frame-by-frame, storyboards and animatics.">
+<meta property="og:title" content="Adwittiya Mondal · 2D Animator">
+<meta property="og:description" content="Portfolio of Adwittiya Mondal, 2D animator in Melbourne: character animation, frame-by-frame, storyboards and animatics.">
+<meta property="og:image" content="m/reel2d.webp">
+<meta name="theme-color" content="#76c3ee">
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800;900&display=swap">
+<style>
+/* Layout: a bright Australian afternoon. Five full-screen sections swapped by clicks (never scroll),
+   sticky top bar, chunky ink outlines, golden shadows. Single bright look by design. */
+:root{
+  --sky:#76c3ee; --sky-d:#2f8fd0; --sky-t:#e2f2fc; --sand:#f7d37a; --sand-t:#fdf1cf; --euc:#8cc09a; --euc-d:#4c8e66;
+  --coral:#ef7b5c; --coral-d:#cf5a3b; --ink:#24324a; --soft:#5d6a80; --cream:#fff8ec; --white:#ffffff;
+  --font:"Nunito","Trebuchet MS","Segoe UI",sans-serif;
+  --r:20px;
+  --sh:0 14px 30px -12px rgba(186,128,28,.42),0 3px 0 rgba(36,50,74,.10);
+  --sh-up:0 24px 40px -14px rgba(186,128,28,.5),0 4px 0 rgba(36,50,74,.12);
+  --ease:cubic-bezier(.34,1.3,.64,1);
+  color-scheme:light;
+}
+html,body{height:100%}
+body{margin:0;background:var(--cream);color:var(--ink);font:400 17px/1.65 var(--font);overflow:hidden;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer}
+a{color:inherit}
+img{max-width:100%}
+:focus-visible{outline:3px solid var(--sky-d);outline-offset:3px;border-radius:8px}
+[tabindex="-1"]:focus{outline:none}
+[hidden]{display:none!important}
+h1,h2,h3{font-weight:900;line-height:1.08;margin:0;text-wrap:balance}
+.label{font-weight:600}
+
+/* pills */
+.pill{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:999px;font-weight:800;font-size:17px;text-decoration:none;border:3px solid var(--ink);transition:transform .2s ease,box-shadow .2s ease,background .2s ease;box-shadow:0 4px 0 var(--ink)}
+.pill:hover{transform:scale(1.04)}
+.pill:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.pill.sky{background:var(--sky);color:var(--ink)}
+.pill.coral{background:var(--white);color:var(--coral-d);border-color:var(--coral-d);box-shadow:0 4px 0 var(--coral-d)}
+.pill.coral:hover{background:#fff1ec}
+.pill.small{padding:7px 16px;font-size:15px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:999px;font-weight:600;font-size:14.5px;border:2px solid var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:9px;list-style:none;padding:0;margin:0}
+.chips.sky li{background:var(--sky-t)}
+.chips.sand li{background:var(--sand-t)}
+.chips li{padding:6px 14px;border-radius:999px;font-weight:600;font-size:15px;border:2px solid var(--ink)}
+
+/* sticky top bar */
+.topbar{position:fixed;z-index:30;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;gap:14px;
+  padding:calc(env(safe-area-inset-top,0px) + 12px) max(20px,env(safe-area-inset-right,0px)) 12px max(20px,env(safe-area-inset-left,0px));
+  background:rgba(255,248,236,.92);backdrop-filter:blur(10px);border-bottom:3px solid var(--ink)}
+.word{font-weight:900;font-size:22px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.word svg{width:30px;height:30px}
+.links{display:flex;gap:6px}
+.links button{position:relative;padding:8px 14px;font-weight:800;font-size:17px}
+.links button::after{content:"";position:absolute;left:14px;right:14px;bottom:2px;height:4px;border-radius:4px;background:var(--sky-d);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.links button:hover::after{transform:scaleX(.45)}
+.links button[aria-current="true"]::after{transform:scaleX(1)}
+.burger{display:none;width:46px;height:46px;border-radius:14px;border:3px solid var(--ink);background:var(--sky);box-shadow:0 3px 0 var(--ink)}
+.burger svg{width:24px;height:24px}
+@media (max-width:760px){.links{display:none}.burger{display:grid;place-items:center}}
+.mnav{position:fixed;inset:0;z-index:46;background:var(--sky);display:grid;align-content:center;gap:8px;
+  padding:calc(env(safe-area-inset-top,0px) + 80px) max(28px,env(safe-area-inset-right,0px)) 60px max(28px,env(safe-area-inset-left,0px))}
+.mnav button{color:var(--white);font-weight:900;font-size:clamp(40px,12vw,64px);text-align:left;text-shadow:3px 3px 0 var(--ink);animation:up .45s var(--ease) both;animation-delay:calc(var(--d,0) * 60ms)}
+.mnav button[aria-current="true"]{color:var(--sand)}
+.mnav-x{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);right:max(20px,env(safe-area-inset-right,0px));width:46px;height:46px;border-radius:14px;border:3px solid var(--ink);background:var(--white);font-weight:900;font-size:22px}
+
+/* sections */
+.page{position:fixed;inset:0;z-index:1;overflow-y:auto;overscroll-behavior:contain;
+  padding-top:calc(env(safe-area-inset-top,0px) + 96px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 70px);
+  padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1160px;margin:0 auto}
+.page.enter .rise{animation:up .6s var(--ease) both;animation-delay:calc(var(--d,0) * 80ms + 60ms)}
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.h-sec{display:flex;align-items:center;gap:14px;font-size:clamp(40px,6vw,72px);margin:0 0 10px}
+.h-sec svg{width:clamp(44px,5vw,64px);height:auto;flex:none}
+.sub{font-size:clamp(17px,1.5vw,20px);color:var(--soft);max-width:56ch;margin:0 0 30px}
+
+/* HERO */
+#home{padding:0;overflow:hidden;background:#bfe6fb}
+.scene{position:absolute;inset:0;width:100%;height:100%}
+.scene .rays{transform-box:fill-box;transform-origin:center;animation:spin 60s linear infinite}
+.scene .drift{animation:drift 70s linear infinite;animation-delay:-24s}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-2300px)}}
+.hero{position:relative;z-index:2;min-height:100%;display:grid;place-items:center;text-align:center;box-sizing:border-box;
+  padding:calc(env(safe-area-inset-top,0px) + 90px) max(18px,env(safe-area-inset-right,0px)) 26vh max(18px,env(safe-area-inset-left,0px))}
+.hello{display:inline-block;padding:6px 18px;border-radius:999px;background:var(--white);border:3px solid var(--ink);font-weight:800;font-size:18px;box-shadow:0 3px 0 var(--ink);margin:0 0 18px}
+.name{font-size:clamp(46px,9vw,124px);letter-spacing:.01em;color:var(--ink);text-shadow:5px 6px 0 var(--sand),5px 6px 18px rgba(186,128,28,.35)}
+.titleline{font-weight:800;font-size:clamp(16px,1.9vw,23px);margin:16px auto 30px;max-width:46ch;background:rgba(255,255,255,.82);padding:8px 18px;border-radius:999px;display:inline-block}
+.cta{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.mascot{position:absolute;z-index:3;right:max(4vw,env(safe-area-inset-right,0px));bottom:7vh;width:clamp(96px,11vw,150px);cursor:pointer}
+.mascot .body{transform-box:fill-box;transform-origin:50% 100%;animation:hop 1.6s cubic-bezier(.5,0,.5,1) infinite}
+.mascot .lid{transform-box:fill-box;transform-origin:center;animation:blinkEye 4.2s infinite}
+@keyframes hop{0%,100%{transform:translateY(0) scale(1.12,.86)}12%{transform:translateY(0) scale(.92,1.1)}45%{transform:translateY(-26%) scale(.96,1.05)}78%{transform:translateY(0) scale(1.08,.9)}}
+@keyframes blinkEye{0%,92%,100%{transform:scaleY(0)}95%{transform:scaleY(1)}}
+.mascot-tip{position:absolute;right:0;bottom:100%;margin-bottom:8px;white-space:nowrap;padding:5px 12px;border-radius:999px;background:var(--white);border:2px solid var(--ink);font-weight:800;font-size:13px;opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s}
+.mascot:hover .mascot-tip,.mascot:focus-visible .mascot-tip{opacity:1;transform:none}
+@media (max-width:640px){.mascot{bottom:3vh}}
+
+/* ABOUT */
+#about{background:var(--cream);padding-top:0}
+.sandband{display:block;width:100%;height:80px;margin:0 0 10px}
+.band-wrap{margin-left:calc(-1 * max(18px,env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(18px,env(safe-area-inset-right,0px)));padding-top:calc(env(safe-area-inset-top,0px) + 70px);background:var(--sand)}
+.about{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(28px,5vw,64px);align-items:start}
+.polaroid{margin:0;padding:14px 14px 16px;background:var(--white);border:4px solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);transform:rotate(-2.5deg)}
+.polaroid .ph{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;background:var(--sky-t);border:3px solid var(--ink)}
+.polaroid .ph svg,.polaroid .ph img{position:absolute;inset:0;width:100%;height:100%}
+.polaroid .ph img{object-fit:contain;padding:6%;box-sizing:border-box;background:var(--sky-t)}
+.polaroid figcaption{text-align:center;font-weight:800;padding-top:10px}
+.stats{display:grid;gap:10px;margin-top:22px}
+.stats .chip{background:var(--white);font-size:15.5px;box-shadow:0 3px 0 var(--ink);justify-content:flex-start}
+.stats svg{width:22px;height:22px;flex:none}
+.bio p{margin:0 0 15px;max-width:64ch}
+.bio p:first-child{font-size:clamp(19px,1.7vw,22px);font-weight:600}
+.rowlabel{font-weight:900;font-size:19px;margin:24px 0 10px}
+@media (max-width:860px){.about{grid-template-columns:1fr}.polaroid{max-width:340px}}
+
+/* WORK */
+#work{background:var(--sky-t)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
+.card{position:relative;display:flex;flex-direction:column;text-align:left;background:var(--white);border:4px solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;
+  transition:transform .3s var(--ease),box-shadow .3s ease}
+.page.enter .card{animation:up .55s var(--ease) both;animation-delay:calc(var(--i,0) * 80ms + 200ms)}
+.card:hover,.card:focus-visible{transform:translateY(-6px);box-shadow:var(--sh-up)}
+.media{position:relative;aspect-ratio:16/10;background:var(--ink);overflow:hidden}
+.media .ph-svg,.media img,.media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.media img,.media video{transition:transform .5s ease}
+.card:hover .media img{transform:scale(1.05)}
+.media video{opacity:0;transition:opacity .25s}
+.card.playing .media video{opacity:1}
+.media .frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.media.broken img{display:none}
+.view{position:absolute;left:50%;top:50%;transform:translate(-50%,-30%);opacity:0;padding:8px 18px;border-radius:999px;background:var(--white);border:3px solid var(--ink);font-weight:900;font-size:15px;transition:opacity .25s,transform .3s var(--ease);white-space:nowrap}
+.card:hover .view,.card:focus-visible .view{opacity:1;transform:translate(-50%,-50%)}
+.strip{height:10px;background:var(--c)}
+.foot{display:flex;flex-direction:column;gap:8px;padding:14px 16px 16px}
+.foot h3{font-size:20px;line-height:1.2}
+.foot .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.foot .chip{font-size:13px;padding:3px 11px;background:var(--t)}
+.foot .yr{font-weight:800;color:var(--soft);font-size:14px;white-space:nowrap}
+@media (max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.grid{grid-template-columns:1fr}}
+
+/* PROJECT OVERLAY: a sketchbook that slides up */
+.ov{position:fixed;inset:0;z-index:45;background:var(--cream);overflow-y:auto;overscroll-behavior:contain;transform:translateY(100%);transition:transform .4s ease;
+  padding:calc(env(safe-area-inset-top,0px) + 18px) max(18px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 60px) max(18px,env(safe-area-inset-left,0px))}
+.ov.open{transform:none}
+.ov-top{position:sticky;top:0;z-index:3;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0 14px;background:linear-gradient(var(--cream) 72%,transparent)}
+.arrows{display:flex;gap:8px;align-items:center}
+.arrow{width:48px;height:48px;border-radius:999px;border:3px solid var(--ink);background:var(--white);font-weight:900;font-size:22px;box-shadow:0 3px 0 var(--ink);transition:transform .2s}
+.arrow:hover{transform:scale(1.06)}
+.ov-pos{font-weight:800;color:var(--soft);font-size:14px}
+.panel{position:relative;border:4px solid var(--ink);border-radius:24px;overflow:hidden;background:var(--ink);box-shadow:var(--sh);aspect-ratio:16/9;max-height:68vh;width:100%}
+.panel video,.panel img{display:block;width:100%;height:100%;object-fit:contain;background:var(--ink)}
+.panel img{background:var(--white)}
+.ov h2{font-size:clamp(36px,5.4vw,66px);margin:26px 0 12px}
+.facts{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:0 0 20px}
+.facts .chip{background:var(--sand-t)}
+.facts span b{font-weight:900}
+.ov-text p{max-width:68ch;margin:0 0 14px;font-size:18px}
+.ov-note{padding:12px 16px;border-radius:14px;background:var(--sand-t);border:2px dashed var(--ink);font-size:15px;max-width:66ch}
+.stills-h{font-size:26px;margin:30px 0 14px}
+.stills{display:flex;gap:20px;overflow-x:auto;padding:6px 6px 22px;scroll-snap-type:x proximity}
+.pol{display:block;flex:0 0 clamp(220px,26vw,300px);scroll-snap-align:start;margin:0;padding:10px 10px 12px;background:var(--white);border:3px solid var(--ink);border-radius:16px;box-shadow:var(--sh);text-align:left}
+.pol:nth-child(odd){transform:rotate(-1.5deg)}
+.pol:nth-child(even){transform:rotate(1.2deg)}
+.pol .pm{display:block;position:relative;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--sky-t);border:2px solid var(--ink)}
+.pol img,.pol video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:var(--white)}
+.pol .pc{display:block;font-weight:700;font-size:14.5px;padding-top:8px;line-height:1.3}
+button.pol:hover{transform:rotate(0) scale(1.03)}
+
+/* still viewer */
+.lb{position:fixed;inset:0;z-index:48;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;background:rgba(36,50,74,.86);
+  padding:calc(env(safe-area-inset-top,0px) + 70px) max(12px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 24px) max(12px,env(safe-area-inset-left,0px))}
+.lb figure{margin:0;display:grid;justify-items:center;gap:12px;min-width:0;height:100%;align-content:center}
+.lb img{max-width:100%;max-height:calc(100vh - 190px);object-fit:contain;background:var(--white);padding:10px;border-radius:18px;border:4px solid var(--ink)}
+.lb figcaption{color:var(--white);font-weight:800}
+.lb-x{position:absolute;top:calc(env(safe-area-inset-top,0px) + 18px);right:max(18px,env(safe-area-inset-right,0px))}
+@media (max-width:640px){.lb{grid-template-columns:1fr 1fr;grid-template-rows:minmax(0,1fr) auto}.lb figure{grid-column:1/-1;grid-row:1}.lb .arrow{grid-row:2;justify-self:center}}
+
+/* SERVICES */
+#services{background:var(--cream)}
+.svc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.svc article{padding:26px 26px 22px;border:4px solid var(--ink);border-radius:24px;box-shadow:var(--sh);display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:start}
+.svc article:nth-child(4n+1),.svc article:nth-child(4n+4){background:var(--sky-t)}
+.svc article:nth-child(4n+2),.svc article:nth-child(4n+3){background:var(--sand-t)}
+.svc svg{width:84px;height:84px}
+.svc h3{font-size:26px;margin:2px 0 8px}
+.svc p{margin:0 0 12px}
+.tlink{font-weight:900;color:var(--coral-d);text-decoration:none;border-bottom:3px solid currentColor}
+.tlink:hover{color:var(--sky-d)}
+@media (max-width:760px){.svc{grid-template-columns:1fr}.svc article{grid-template-columns:1fr}}
+
+/* CONTACT */
+#contact{background:var(--white);padding-bottom:0}
+.contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(26px,5vw,60px);align-items:start}
+.intro{font-size:clamp(18px,1.6vw,21px);margin:0 0 22px}
+.mail{display:inline-block;font-weight:900;font-size:clamp(20px,2.6vw,32px);color:var(--sky-d);text-decoration:none;word-break:break-all;border-bottom:4px solid var(--sand)}
+.mail:hover{color:var(--coral-d)}
+.socials{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.socials .pill{background:var(--white);font-size:15px;padding:9px 18px}
+.socials .pill:nth-child(1){background:var(--sky-t)}
+.socials .pill:nth-child(2){background:var(--sand-t)}
+.socials .pill:nth-child(3){background:#fde4dc}
+.socials .pill:nth-child(4){background:#e3f1e6}
+.form{padding:26px;border:4px solid var(--ink);border-radius:24px;background:var(--sky-t);box-shadow:var(--sh)}
+.form label{display:grid;gap:6px;font-weight:800;margin-bottom:14px}
+.form input,.form select,.form textarea{width:100%;box-sizing:border-box;padding:12px 14px;border:3px solid var(--ink);border-radius:16px;background:var(--white);font-size:16px;outline:none}
+.form input:focus,.form select:focus,.form textarea:focus{border-color:var(--sky-d);box-shadow:0 0 0 4px rgba(47,143,208,.2)}
+.form textarea{min-height:120px;resize:vertical}
+.form .err{color:var(--coral-d);font-weight:700;margin:0 0 10px}
+.thanks{text-align:center;padding:30px 10px}
+.thanks strong{display:block;font-size:28px;font-weight:900;margin-bottom:8px}
+.grass{display:block;width:100%;height:90px;margin-top:50px}
+.footer{background:var(--euc-d);color:var(--white);text-align:center;font-weight:700;font-size:15px;
+  margin-left:calc(-1 * max(18px,env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(18px,env(safe-area-inset-right,0px)));
+  padding:6px 18px calc(env(safe-area-inset-bottom,0px) + 22px)}
+@media (max-width:820px){.contact{grid-template-columns:1fr}}
+.vid-err{margin:8px 0 0;font-weight:700;color:var(--coral-d)}
+.vid-err a{color:var(--sky-d)}
+
+/* CV viewer */
+.cvv{position:fixed;inset:0;z-index:48;overflow-y:auto;overscroll-behavior:contain;background:rgba(36,50,74,.9);
+  padding:calc(env(safe-area-inset-top,0px) + 18px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 40px) max(16px,env(safe-area-inset-left,0px))}
+.cvv-top{position:sticky;top:0;z-index:1;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;max-width:900px;margin:0 auto;padding:8px 0 16px}
+.cvv-note{flex-basis:100%;margin:0;color:var(--white)}
+.cvv img{display:block;width:100%;max-width:900px;height:auto;margin:0 auto;border-radius:18px;border:4px solid var(--ink)}
+
+/* paw trail */
+.paws{position:fixed;z-index:44;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);height:40px;pointer-events:none}
+.paws svg{position:absolute;width:26px;height:26px;color:var(--coral);opacity:0;animation:paw 1.4s ease both}
+@keyframes paw{0%{opacity:0;transform:scale(.4) rotate(var(--rot))}20%,60%{opacity:.9;transform:scale(1) rotate(var(--rot))}100%{opacity:0;transform:scale(1) rotate(var(--rot))}}
+
+/* cursor: a dot and a ring that follows through */
+.cur,.ring{display:none}
+@media (hover:hover) and (pointer:fine){
+  body,body *{cursor:none!important}
+  .cur,.ring{display:block;position:fixed;left:0;top:0;z-index:100;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%)}
+  .cur{width:8px;height:8px;background:var(--sky-d);transition:width .2s,height .2s,background .2s}
+  .ring{width:24px;height:24px;border:2px solid var(--sky-d);transition:width .2s,height .2s,border-color .2s}
+  .cur.hot{width:12px;height:12px;background:var(--coral)}
+  .ring.hot{width:34px;height:34px;border-color:var(--coral)}
+  .off{opacity:0}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="paw" viewBox="0 0 32 32"><ellipse cx="16" cy="21" rx="7.5" ry="6.5" fill="currentColor"/><ellipse cx="7" cy="13" rx="3.2" ry="4" fill="currentColor"/><ellipse cx="12.5" cy="7.5" rx="3.2" ry="4.2" fill="currentColor"/><ellipse cx="19.5" cy="7.5" rx="3.2" ry="4.2" fill="currentColor"/><ellipse cx="25" cy="13" rx="3.2" ry="4" fill="currentColor"/></symbol>
+  <symbol id="filmframe" viewBox="0 0 160 100" preserveAspectRatio="none"><rect x="0" y="0" width="160" height="9" fill="#24324a"/><rect x="0" y="91" width="160" height="9" fill="#24324a"/><g fill="#fff8ec"><rect x="6" y="2.5" width="7" height="4" rx="1.5"/><rect x="26" y="2.5" width="7" height="4" rx="1.5"/><rect x="46" y="2.5" width="7" height="4" rx="1.5"/><rect x="66" y="2.5" width="7" height="4" rx="1.5"/><rect x="86" y="2.5" width="7" height="4" rx="1.5"/><rect x="106" y="2.5" width="7" height="4" rx="1.5"/><rect x="126" y="2.5" width="7" height="4" rx="1.5"/><rect x="146" y="2.5" width="7" height="4" rx="1.5"/><rect x="6" y="93.5" width="7" height="4" rx="1.5"/><rect x="26" y="93.5" width="7" height="4" rx="1.5"/><rect x="46" y="93.5" width="7" height="4" rx="1.5"/><rect x="66" y="93.5" width="7" height="4" rx="1.5"/><rect x="86" y="93.5" width="7" height="4" rx="1.5"/><rect x="106" y="93.5" width="7" height="4" rx="1.5"/><rect x="126" y="93.5" width="7" height="4" rx="1.5"/><rect x="146" y="93.5" width="7" height="4" rx="1.5"/></g></symbol>
+</svg>
+<div class="cur off" aria-hidden="true"></div><div class="ring off" aria-hidden="true"></div>
+<div class="paws" aria-hidden="true"></div>
+
+<header class="topbar">
+  <button class="word" data-go="home" aria-label="Adwittiya Mondal, home">
+    <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17" fill="#f7d37a" stroke="#24324a" stroke-width="3.5"/><path d="M12 24c3 4 13 4 16 0" fill="none" stroke="#24324a" stroke-width="3.5" stroke-linecap="round"/><circle cx="15" cy="16" r="2.4" fill="#24324a"/><circle cx="25" cy="16" r="2.4" fill="#24324a"/></svg>
+    Adwittiya Mondal
+  </button>
+  <nav class="links" aria-label="Sections">
+    <button data-go="about">About</button><button data-go="work">Work</button><button data-go="services">Services</button><button data-go="contact">Contact</button>
+  </nav>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><svg viewBox="0 0 24 24" fill="none" stroke="#24324a" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</header>
+<nav class="mnav" id="mnav" aria-label="Sections" hidden>
+  <button class="mnav-x" id="mnav-x" aria-label="Close menu">✕</button>
+  <button data-go="home" style="--d:0">Home</button>
+  <button data-go="about" style="--d:1">About</button>
+  <button data-go="work" style="--d:2">Work</button>
+  <button data-go="services" style="--d:3">Services</button>
+  <button data-go="contact" style="--d:4">Contact</button>
+</nav>
+
+<!-- HERO -->
+<section class="page" id="home" aria-label="Home">
+  <svg class="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs><linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7ec8f2"/><stop offset="1" stop-color="#d4f0fd"/></linearGradient></defs>
+    <rect width="1600" height="900" fill="url(#skyg)"/>
+    <g transform="translate(1330 170)">
+      <g class="rays" stroke="#f7d37a" stroke-width="16" stroke-linecap="round">
+        <line x1="0" y1="-118" x2="0" y2="-160"/><line x1="0" y1="118" x2="0" y2="160"/><line x1="-118" y1="0" x2="-160" y2="0"/><line x1="118" y1="0" x2="160" y2="0"/>
+        <line x1="84" y1="84" x2="113" y2="113"/><line x1="-84" y1="84" x2="-113" y2="113"/><line x1="84" y1="-84" x2="113" y2="-113"/><line x1="-84" y1="-84" x2="-113" y2="-113"/>
+      </g>
+      <circle r="88" fill="#f9d66f" stroke="#24324a" stroke-width="7"/>
+      <circle r="60" fill="#fde69a"/>
+    </g>
+    <g fill="#ffffff" stroke="#24324a" stroke-width="7" stroke-linejoin="round">
+      <path d="M210 230c-8-44 46-70 82-46 14-38 80-42 96 0 40-12 68 26 50 56 20 18 6 50-26 50H236c-40 0-54-46-26-60z"/>
+      <path class="drift" d="M1720 330c-8-40 42-64 76-42 14-36 76-40 92 0 38-12 64 24 48 52 18 16 4 46-24 46h-170c-38 0-50-42-22-56z"/>
+      <path d="M760 150c-6-30 32-48 58-32 10-26 58-30 70 0 28-8 48 18 36 40 14 12 4 34-18 34H778c-28 0-38-32-18-42z"/>
+    </g>
+    <path d="M0 640C220 580 420 600 620 630S1040 580 1260 600 1600 640 1600 640V900H0z" fill="#a9d4b0" stroke="#24324a" stroke-width="6"/>
+    <g fill="#f3dfb3" stroke="#24324a" stroke-width="5" stroke-linejoin="round">
+      <path d="M560 640h980v34H560z"/><path d="M560 700h980v30H560z"/>
+      <path d="M590 600l18-24 18 24v170h-36z"/><path d="M760 600l18-24 18 24v170h-36z"/><path d="M930 600l18-24 18 24v170h-36z"/><path d="M1100 600l18-24 18 24v170h-36z"/><path d="M1270 600l18-24 18 24v170h-36z"/><path d="M1440 600l18-24 18 24v170h-36z"/>
+    </g>
+    <g stroke="#24324a" stroke-width="7" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M262 780c18-120 6-230-30-330 28 40 48 60 62 70 4-70 30-140 70-190-20 70-30 140-18 210 20-30 50-50 84-60-50 50-70 120-70 300z" fill="#efe3cf"/>
+      <g fill="#8cc09a"><circle cx="190" cy="300" r="78"/><circle cx="300" cy="230" r="96"/><circle cx="420" cy="300" r="80"/><circle cx="350" cy="350" r="70"/><circle cx="240" cy="372" r="62"/></g>
+      <g fill="#6aa67c" stroke-width="5"><path d="M170 300q30-24 50 6q-30 18-50-6z"/><path d="M300 200q30-24 50 6q-30 18-50-6z"/><path d="M400 300q30-24 50 6q-30 18-50-6z"/><path d="M260 340q30-24 50 6q-30 18-50-6z"/></g>
+    </g>
+    <path d="M0 770C200 740 400 760 800 750S1400 740 1600 760V900H0z" fill="#5f9e74" stroke="#24324a" stroke-width="7"/>
+    <g fill="none" stroke="#24324a" stroke-width="6" stroke-linecap="round">
+      <path d="M90 770l8-26 8 26M110 770l6-20M400 762l8-24 8 24M700 756l7-22 7 22M1010 752l8-26 8 26M1330 758l7-22 7 22M1520 762l8-24 8 24"/>
+    </g>
+    <path d="M0 830C260 800 520 868 800 840S1340 806 1600 836V900H0z" fill="#f7d37a" stroke="#24324a" stroke-width="7"/>
+  </svg>
+  <div class="hero">
+    <div>
+      <p class="hello rise" style="--d:0">G'day! I animate characters.</p>
+      <h1 class="name rise" style="--d:1" tabindex="-1">ADWITTIYA MONDAL</h1>
+      <p class="titleline rise" style="--d:2">2D Animator · Character Animation · Frame-by-Frame · Storyboarding</p>
+      <div class="cta rise" style="--d:3">
+        <button class="pill sky" data-go="work">See My Work →</button>
+        <button class="pill coral" data-go="contact">Get in Touch</button>
+      </div>
+    </div>
+  </div>
+  <button class="mascot" data-go="work" aria-label="Blob, my own animated character. Opens my work">
+    <span class="mascot-tip">Hi, I'm Blob! I'm from her animation tests</span>
+    <svg viewBox="0 0 140 130" aria-hidden="true">
+      <ellipse cx="70" cy="122" rx="44" ry="7" fill="rgba(36,50,74,.25)"/>
+      <g class="body">
+        <path d="M22 118c-14 0-16-14-6-20 8-5 10-12 10-28 0-34 18-56 46-56s44 22 44 48c0 18 4 26 12 32 10 7 6 24-8 24z" fill="#f2832f" stroke="#24324a" stroke-width="6" stroke-linejoin="round"/>
+        <circle cx="58" cy="54" r="11" fill="#fff" stroke="#24324a" stroke-width="4"/><circle cx="88" cy="54" r="11" fill="#fff" stroke="#24324a" stroke-width="4"/>
+        <circle cx="61" cy="56" r="5" fill="#24324a"/><circle cx="91" cy="56" r="5" fill="#24324a"/>
+        <rect class="lid" x="45" y="42" width="56" height="25" fill="#f2832f"/>
+        <path d="M60 78q13 10 26 0" fill="none" stroke="#24324a" stroke-width="5" stroke-linecap="round"/>
+      </g>
+    </svg>
+  </button>
+</section>
+
+<!-- ABOUT -->
+<section class="page" id="about" aria-label="About" hidden>
+  <div class="band-wrap"><svg class="sandband" viewBox="0 0 1600 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0H1600V30C1340 70 1080 10 800 40S260 70 0 30z" fill="#f7d37a"/><path d="M0 30C260 70 520 70 800 40S1340 70 1600 30" fill="none" stroke="#24324a" stroke-width="5"/><path d="M0 30C260 70 520 70 800 40S1340 70 1600 30V80H0z" fill="#fff8ec"/></svg></div>
+  <div class="wrap">
+    <h2 class="h-sec rise" style="--d:0" tabindex="-1"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="#f7d37a" stroke="#24324a" stroke-width="5"/><path d="M20 38c4 6 20 6 24 0" fill="none" stroke="#24324a" stroke-width="5" stroke-linecap="round"/><circle cx="24" cy="27" r="3.5" fill="#24324a"/><circle cx="40" cy="27" r="3.5" fill="#24324a"/></svg>About me</h2>
+    <div class="about">
+      <div class="rise" style="--d:1">
+        <figure class="polaroid">
+          <div class="ph">
+            <svg viewBox="0 0 200 200" aria-hidden="true"><rect width="200" height="200" fill="#e2f2fc"/><circle cx="100" cy="80" r="34" fill="#ef7b5c" stroke="#24324a" stroke-width="6"/><path d="M40 196c4-46 30-70 60-70s56 24 60 70z" fill="#76c3ee" stroke="#24324a" stroke-width="6"/></svg>
+            <img src="m/brand.png" alt="Adwittiya's illustrated self-portrait badge with 3D, 2D and VFX tags and her signature" onerror="this.remove()">
+          </div>
+          <figcaption>That's me, drawn by me</figcaption>
+        </figure>
+        <div class="stats">
+          <span class="chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l3-1L19 7l-2-2L5 17z" fill="#f7d37a" stroke="#24324a" stroke-width="2" stroke-linejoin="round"/></svg>Fine Arts training since 2012</span>
+          <span class="chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z" fill="#76c3ee" stroke="#24324a" stroke-width="2" stroke-linejoin="round"/><path d="M6 11v5c3 3 9 3 12 0v-5" fill="none" stroke="#24324a" stroke-width="2"/></svg>CG Animation &amp; VFX Graduate, Collarts, Melbourne</span>
+          <span class="chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-7 7-12a7 7 0 10-14 0c0 5 7 12 7 12z" fill="#ef7b5c" stroke="#24324a" stroke-width="2"/><circle cx="12" cy="10" r="2.5" fill="#fff"/></svg>Melbourne, Australia</span>
+        </div>
+      </div>
+      <div class="bio rise" style="--d:2">
+        <p>I’m Adwittiya, a 2D animator and CG Animation &amp; VFX graduate from the Australian College of the Arts (Collarts) in Melbourne. I’ve been drawing since 2012, trained in fine arts through Pracheen Kala Kendra, and that traditional foundation is what gives my animation its life.</p>
+        <p>I specialise in character animation, frame-by-frame work, storyboarding and animatics: the kind of work that starts on paper and earns its soul before it ever reaches a screen. I’ve contributed across full production pipelines, from scriptwriting and character design to timing, clean-up and compositing, both in collaborative studio teams and independently.</p>
+        <p>Most recently I’ve been animating and art directing a 2-minute advocacy film for Animal-Free Science Advocacy, and before that I wrote, designed and animated Collarts’ official student welcome video, seen by 1,000+ incoming students. I also design original 2D character and card assets for an independent video game.</p>
+        <p>I’m currently based in Melbourne and open to 2D animation roles, character animation work and collaborative productions.</p>
+        <p class="rowlabel">Skills</p>
+        <ul class="chips sky"><li>2D &amp; 3D Animation</li><li>Character Design</li><li>Frame-by-Frame</li><li>Storyboarding</li><li>Scriptwriting</li><li>Compositing</li><li>Digital &amp; Traditional Painting</li><li>After Effects</li><li>Photoshop</li><li>Illustrator</li><li>Premiere Pro</li></ul>
+        <p class="rowlabel">Software</p>
+        <ul class="chips sand"><li>After Effects</li><li>Photoshop</li><li>Illustrator</li><li>Premiere Pro</li><li>Blender</li><li>Python</li><li>HTML</li></ul>
+        <p style="margin-top:26px"><button class="pill coral" data-cv>Download CV →</button></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="page" id="work" aria-label="My Work" hidden>
+  <div class="wrap">
+    <h2 class="h-sec rise" style="--d:0" tabindex="-1"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="5" y="12" width="40" height="40" rx="8" fill="#e2f2fc" stroke="#24324a" stroke-width="5"/><path d="M13 20h6M13 44h6M31 20h6M31 44h6" stroke="#24324a" stroke-width="4" stroke-linecap="round"/><path d="M38 50l4-12 16-16 7 7-16 16z" fill="#f7d37a" stroke="#24324a" stroke-width="4" stroke-linejoin="round"/></svg>My Work</h2>
+    <p class="sub rise" style="--d:1">Hover a card to watch it move. Click to open the full story, with frames and stills.</p>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="page" id="services" aria-label="What I Do" hidden>
+  <div class="wrap">
+    <h2 class="h-sec rise" style="--d:0" tabindex="-1"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M44 6l14 14-22 22-14-14z" fill="#76c3ee" stroke="#24324a" stroke-width="5" stroke-linejoin="round"/><path d="M22 28l14 14c-4 12-14 16-28 16 4-6 2-12 4-18 2-8 6-11 10-12z" fill="#ef7b5c" stroke="#24324a" stroke-width="5" stroke-linejoin="round"/></svg>What I Do</h2>
+    <p class="sub rise" style="--d:1">Four ways I can help your production, all from work I've actually shipped.</p>
+    <div class="svc">
+      <article class="rise" style="--d:2">
+        <svg viewBox="0 0 84 84" aria-hidden="true"><rect x="4" y="4" width="76" height="76" rx="24" fill="#fff" stroke="#24324a" stroke-width="5"/><circle cx="42" cy="38" r="20" fill="#f2832f" stroke="#24324a" stroke-width="5"/><circle cx="35" cy="34" r="4" fill="#24324a"/><circle cx="49" cy="34" r="4" fill="#24324a"/><path d="M34 45q8 6 16 0" fill="none" stroke="#24324a" stroke-width="4" stroke-linecap="round"/><path d="M18 70q24-10 48 0" fill="none" stroke="#24324a" stroke-width="5" stroke-linecap="round"/></svg>
+        <div><h3>Character Animation</h3><p>Personality-driven character animation with expressive timing, rooted in a traditional fine arts foundation. I've worked across 2D digital and frame-by-frame techniques.</p><button class="tlink" data-go="contact">Get in touch →</button></div>
+      </article>
+      <article class="rise" style="--d:3">
+        <svg viewBox="0 0 84 84" aria-hidden="true"><rect x="4" y="4" width="76" height="76" rx="24" fill="#fff" stroke="#24324a" stroke-width="5"/><g fill="#e2f2fc" stroke="#24324a" stroke-width="4"><rect x="14" y="16" width="24" height="18" rx="4"/><rect x="46" y="16" width="24" height="18" rx="4"/><rect x="14" y="44" width="24" height="18" rx="4"/><rect x="46" y="44" width="24" height="18" rx="4" fill="#f7d37a"/></g><path d="M22 28l5-6 5 6M54 24h8M20 52h12" stroke="#24324a" stroke-width="3" stroke-linecap="round" fill="none"/></svg>
+        <div><h3>Storyboarding &amp; Animatics</h3><p>From thumbnail sketches to fully timed animatics with sound. I plan sequences as real sets, with floor plans, camera positions and colour scripts, before a single frame is animated.</p><button class="tlink" data-go="contact">Get in touch →</button></div>
+      </article>
+      <article class="rise" style="--d:4">
+        <svg viewBox="0 0 84 84" aria-hidden="true"><rect x="4" y="4" width="76" height="76" rx="24" fill="#fff" stroke="#24324a" stroke-width="5"/><g stroke="#24324a" stroke-width="4" stroke-linejoin="round"><path d="M16 60l10-40h30l-10 40z" fill="#fdf1cf"/><path d="M22 62l10-40h30l-10 40z" fill="#fff8ec"/><path d="M28 64l10-40h30l-10 40z" fill="#fff"/></g><circle cx="49" cy="40" r="7" fill="#ef7b5c" stroke="#24324a" stroke-width="4"/></svg>
+        <div><h3>Frame-by-Frame / Traditional</h3><p>Hand-drawn animation with warmth and texture you can feel. Fine arts trained since 2012, with a deep understanding of weight, life and line.</p><button class="tlink" data-go="contact">Get in touch →</button></div>
+      </article>
+      <article class="rise" style="--d:5">
+        <svg viewBox="0 0 84 84" aria-hidden="true"><rect x="4" y="4" width="76" height="76" rx="24" fill="#fff" stroke="#24324a" stroke-width="5"/><path d="M20 14h34l10 10v46H20z" fill="#fff8ec" stroke="#24324a" stroke-width="4" stroke-linejoin="round"/><path d="M28 32h26M28 42h26M28 52h16" stroke="#24324a" stroke-width="4" stroke-linecap="round"/><path d="M52 62l14-26 6 4-12 24z" fill="#8cc09a" stroke="#24324a" stroke-width="3.5" stroke-linejoin="round"/></svg>
+        <div><h3>Scriptwriting &amp; Production</h3><p>Full pipeline contribution from script to screen. I've written narrative structure, dialogue and scene direction for short film and studio productions.</p><button class="tlink" data-go="contact">Get in touch →</button></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="page" id="contact" aria-label="Contact" hidden>
+  <div class="wrap">
+    <h2 class="h-sec rise" style="--d:0" tabindex="-1"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 12h48a6 6 0 016 6v22a6 6 0 01-6 6H30l-14 12v-12H8a6 6 0 01-6-6V18a6 6 0 016-6z" fill="#76c3ee" stroke="#24324a" stroke-width="5" stroke-linejoin="round"/><circle cx="20" cy="29" r="3.5" fill="#24324a"/><circle cx="32" cy="29" r="3.5" fill="#24324a"/><circle cx="44" cy="29" r="3.5" fill="#24324a"/></svg>Let’s Make Something</h2>
+    <div class="contact">
+      <div class="rise" style="--d:1">
+        <p class="intro">I’m open to junior 2D animation roles, character animation work, and collaborative productions. Based in Melbourne, happy to work remotely too.</p>
+        <a class="mail" id="mail" href="mailto:adwittiya.mondal.tiga018@gmail.com">adwittiya.mondal.tiga018@gmail.com</a>
+        <div style="margin-top:14px"><button class="pill sky small" data-copy="adwittiya.mondal.tiga018@gmail.com">Copy email</button></div>
+        <div class="socials">
+          <a class="pill" href="https://www.linkedin.com/in/adwittiya-mondal-143154293" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a class="pill" href="https://adwittiya.artstation.com/" target="_blank" rel="noopener">ArtStation ↗</a>
+          <a class="pill" href="https://www.instagram.com/mermallade_at_night/" target="_blank" rel="noopener">Instagram @mermallade_at_night ↗</a>
+          <a class="pill" href="https://amondal20230898.myportfolio.com/about-me" target="_blank" rel="noopener">Adobe Portfolio ↗</a>
+        </div>
+      </div>
+      <div class="form rise" style="--d:2">
+        <form id="cform" novalidate>
+          <label for="cf-name">Name<input id="cf-name" name="name" autocomplete="name" required></label>
+          <label for="cf-email">Email<input id="cf-email" name="email" type="email" autocomplete="email" required></label>
+          <label for="cf-type">Project type<select id="cf-type" name="type"><option>Character Animation</option><option>Short Film</option><option>Frame-by-Frame</option><option>Storyboarding</option><option>Other</option></select></label>
+          <label for="cf-msg">Message<textarea id="cf-msg" name="message" required></textarea></label>
+          <p class="err" id="cf-err" role="alert" hidden></p>
+          <button class="pill sky" type="submit">Send Message →</button>
+        </form>
+        <div class="thanks" id="cf-sent" role="status" hidden></div>
+      </div>
+    </div>
+  </div>
+  <svg class="grass" viewBox="0 0 1600 90" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 50C200 30 400 60 600 44S1000 30 1200 46 1500 40 1600 48V90H0z" fill="#5f9e74" stroke="#24324a" stroke-width="5"/>
+    <g fill="none" stroke="#24324a" stroke-width="4" stroke-linecap="round"><path d="M80 50l6-18 6 18M300 46l6-16 6 16M520 46l6-18 6 18M900 40l6-16 6 16M1180 46l6-18 6 18M1440 44l6-16 6 16"/></g>
+    <g stroke="#24324a" stroke-width="3"><circle cx="190" cy="38" r="7" fill="#f7d37a"/><circle cx="700" cy="34" r="7" fill="#ef7b5c"/><circle cx="1030" cy="30" r="7" fill="#fff"/><circle cx="1320" cy="38" r="7" fill="#f7d37a"/></g>
+    <use href="#paw" x="1520" y="54" width="26" height="26" style="color:#fff8ec"/>
+  </svg>
+  <footer class="footer">© 2026 Adwittiya Mondal · Melbourne, Australia · 2D Animation · <a href="3d/" style="color:#fff">3D portfolio</a> · <a href="sketchbook/" style="color:#fff">Sketchbook</a></footer>
+</section>
+
+<!-- PROJECT OVERLAY -->
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="ov-title" hidden>
+  <div class="wrap">
+    <div class="ov-top">
+      <button class="pill sky small" id="ov-close">← Back to Work</button>
+      <div class="arrows"><span class="ov-pos" id="ov-pos"></span><button class="arrow" id="ov-prev" aria-label="Previous project">←</button><button class="arrow" id="ov-next" aria-label="Next project">→</button></div>
+    </div>
+    <div id="ov-body"></div>
+  </div>
+</div>
+
+<!-- STILL VIEWER -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Still viewer" hidden>
+  <button class="pill coral small lb-x" id="lb-x">Close ✕</button>
+  <button class="arrow" id="lb-prev" aria-label="Previous still">←</button>
+  <figure><img id="lb-img" alt=""><figcaption id="lb-cap"></figcaption></figure>
+  <button class="arrow" id="lb-next" aria-label="Next still">→</button>
+</div>
+
+<!-- CV VIEWER -->
+<div class="cvv" id="cvv" role="dialog" aria-modal="true" aria-label="Curriculum vitae" hidden>
+  <div class="cvv-top">
+    <button class="pill sky small" id="cv-x">← Close CV</button>
+    <span id="cv-dlwrap"><a class="pill coral" href="Adwittiya_Mondal_CV.pdf" download>Download PDF ↓</a></span>
+    <p class="cvv-note" id="cv-note" role="status" hidden></p>
+  </div>
+  <img src="m/cv.webp" width="1655" height="2340" loading="lazy" alt="Adwittiya Mondal's CV: profile, production experience, freelance design, leadership, education, skills, software and certifications">
+</div>
+
+<script>
+const V = (s, p, cap) => ({t: 'v', s, p, cap});
+const I = (s, cap) => ({t: 'i', s, cap});
+const COLORS = [['#76c3ee', '#e2f2fc'], ['#f7d37a', '#fdf1cf'], ['#8cc09a', '#e3f1e6'], ['#ef7b5c', '#fde4dc']];
+const P = [
+ {id:'anim', title:'2D Reel & Animation Tests', cat:'Frame-by-Frame', year:'2024 – 2026', role:'Animator', tools:'Procreate · After Effects',
+  hover:'m/reel2d.mp4', poster:'m/reel2d.webp', main:V('m/reel2d.mp4', 'm/reel2d.webp'),
+  text:['My 41-second 2D reel, cut from hand-drawn tests that each chase one principle.','An orange blob climbs out of a sketchbook with squash and stretch and a big anticipation before it runs. A ball bounces into a stick-figure walk-in, a character holds an idle loop, a pool of water splashes as an effects loop, and a single drop lands and turns into my signature.'],
+  stills:[V('m/new/blob.mp4','m/new/blob.webp','Blob: squash, stretch and the run'), V('m/new/ballwalk.mp4','m/new/ballwalk.webp','Ball bounce into a walk-in'), V('m/new/mermaid.mp4','m/new/mermaid.webp','Idle loop'), V('m/new/splash.mp4','m/new/splash.webp','Water splash effects loop'), V('m/new/drop.mp4','m/new/drop.webp','Water drop and signature'), V('m/new/peek.mp4','m/new/peek.webp','Peek-in pencil test')]},
+ {id:'nams', title:'Advocacy Film Animatic', cat:'Storyboarding & Animatic', year:'2026', role:'Art Director, animator &amp; team coordinator', tools:'Storyboarder',
+  hover:'m/nams/00.mp4', poster:'m/frames/nams_45.webp', main:V('m/nams/00.mp4', 'm/nams/00.webp'),
+  text:['I’m art directing and animating a 2-minute advocacy animation for Animal-Free Science Advocacy in Melbourne. It follows the lab, the researcher and the patient, and the move to research without animal testing.','I used Storyboarder to lock the timing in this animatic before production began. Since then my job has been keeping animation, design and post-production moving together as one pipeline.'],
+  stills:[I('m/frames/nams_8.webp','Opening: the street'), I('m/frames/nams_45.webp','In the lab'), I('m/frames/nams_80.webp','Concept boards'), I('m/frames/nams_120.webp','With the patient')]},
+ {id:'collarts', title:'Collarts Welcome Video', cat:'Character Animation', year:'2026', role:'Scriptwriter, character designer, animator', tools:'After Effects',
+  hover:'m/collarts/01.mp4', poster:'m/frames/collarts_20.webp', main:V('m/collarts/00.mp4', 'm/frames/collarts_20.webp'),
+  text:['I wrote the script, designed an original neon line character, and animated Collarts’ official student welcome video in After Effects.','It went out to more than 1,000 incoming students. I took it the whole way, from the first page of script to the final render, and the character design was approved by the LXD Team Lead.'],
+  stills:[I('m/frames/collarts_20.webp','The neon line character'), I('m/frames/collarts_31.webp','Character with animated icons'), I('m/frames/collarts_12.webp','Animated props around the host'), V('m/collarts/01.mp4','m/collarts/01.webp','Animated asset'), V('m/collarts/02.mp4','m/collarts/02.webp','Motion graphic')]},
+ {id:'bugged', title:'Bugged Reality', cat:'Short Film / Animatic', year:'2025', role:'Writer, storyboard artist, character designer, sound', tools:'Storyboard · Colour script · Sound',
+  hover:'m/bugged/00.mp4', poster:'m/bugged/06.webp', main:V('m/bugged/00.mp4', 'm/bugged/00.webp'),
+  text:['My capstone short: a boy, a bedroom, a monitor and a glitch that won’t stay on the screen.','I planned the room as a real set first, with floor plans marking the furniture and every camera position. The colour script moves from cold monitor blue to violet and red as the story turns, and the full animatic carries my timing and sound design.'],
+  stills:[I('m/bugged/05.webp','Character design'), I('m/bugged/06.webp','Colour script: the room at night'), I('m/bugged/07.webp','Colour script: asleep'), I('m/bugged/08.webp','Colour script: at the desk'), I('m/bugged/09.webp','Colour script: the face'), I('m/bugged/10.webp','Colour script: typing'), I('m/bugged/11.webp','Floor plan'), I('m/bugged/12.webp','Camera positions'), I('m/bugged/13.webp','Shot planning'), I('m/bugged/14.webp','Layout sketch')]},
+ {id:'bugs', title:'2D Bug Card Characters', cat:'Character Design & 2D Animation', year:'2024 – Present', role:'2D character &amp; card asset designer', tools:'Procreate · Photoshop',
+  hover:'', poster:'m/characters/07.webp', main:I('m/characters/07.webp'),
+  text:['I design original 2D characters and card assets for an independent bug card video game.','The game is confidential, so the finished cards stay private. What I can show is the design process around it: studying real insects for shape, colour and silhouette, and building a character with a bug-collector’s personality.'],
+  note:'The game’s own card art is confidential and not shown here.',
+  stills:[I('m/characters/07.webp','Professor of Bugs'), I('m/characters/10.webp','Cicada study'), I('m/characters/11.webp','Ladybird study'), I('m/characters/12.webp','Ant study')]},
+ {id:'fantasy', title:'Character Design: Russian Medieval Fantasy', cat:'2D Character Design', year:'2024', role:'Character designer', tools:'Digital painting',
+  hover:'', poster:'m/characters/01.webp', main:I('m/characters/01.webp'),
+  text:['A full cast for a Russian medieval fantasy: Ivan, Princess Amelia, Baba Yelena, Katrina Drakova and Pumpy.','Each one has a turnaround, expressions, a colour palette and a written profile, so an animator could pick them up and know who they are. The last pages are the props.'],
+  stills:[I('m/characters/00.webp','Ivan'), I('m/characters/01.webp','Princess Amelia'), I('m/characters/02.webp','Baba Yelena'), I('m/characters/03.webp','Katrina Drakova'), I('m/characters/04.webp','Pumpy'), I('m/characters/05.webp','Props sheet'), I('m/new/props.webp','Props, final art')]},
+ {id:'daisycac', title:'Mr Daisy & Ms Cac', cat:'Character Design', year:'2024', role:'Character designer', tools:'Digital drawing',
+  hover:'', poster:'m/new/daisycac.webp', main:I('m/new/daisycac.webp'),
+  text:['Two plant characters, designed shape first.','I explored cactus and indoor-plant silhouettes as pure black shapes so each one read instantly, then built the final pair with their traits written beside them.'],
+  stills:[I('m/new/shapes.webp','Silhouette exploration'), I('m/new/daisycac.webp','Mr Daisy and Ms Cac')]},
+ {id:'originals', title:'Original Characters', cat:'Character Design', year:'2024 – 2026', role:'Character designer', tools:'Procreate · Photoshop',
+  hover:'', poster:'m/characters/06.webp', main:I('m/characters/06.webp'),
+  text:['Characters of my own: Mana with a full turnaround and palette, an elf ranger, a sweaking mango, a cat-girl with a bat and a rainbow-haired girl.'],
+  stills:[I('m/characters/06.webp','Mana, turnaround'), I('m/characters/08.webp','Elf ranger'), I('m/characters/09.webp','Sweaking mango'), I('m/new/catgirl.webp','Cat-girl'), I('m/new/rainbow.webp','Rainbow hair'), I('m/art/17.webp','Golden afternoon')]},
+ {id:'studies', title:'Expression & Pose Studies', cat:'Studies', year:'2022 – 2024', role:'Artist', tools:'Pencil · Digital',
+  hover:'', poster:'m/art/19.webp', main:I('m/art/19.webp'),
+  text:['The drills behind the characters: dog expression sheets, a running dog, a page of cartoon hand poses and simple pose mannequins.'],
+  stills:[I('m/art/19.webp','Dog expressions'), I('m/art/20.webp','Dog expressions, part 2'), I('m/art/21.webp','Poses of hands'), I('m/art/22.webp','Running dog'), I('m/art/23.webp','Dog poses'), I('m/new/poses.webp','Pose mannequins'), I('m/art/18.webp','Storyboard thumbnails')]},
+ {id:'illus', title:'Illustration & Digital Painting', cat:'Illustration', year:'2022 – 2026', role:'Illustrator', tools:'Procreate · Photoshop',
+  hover:'', poster:'m/art/09.webp', main:I('m/art/09.webp'),
+  text:['Paintings that feed my colour and lighting sense: portraits, a still life, landscapes, a medieval town, and animals.'],
+  stills:[I('m/art/09.webp','Sunset meadow'), I('m/new/town.webp','Medieval town'), I('m/art/06.webp','Neon portrait'), I('m/art/03.webp','Still life with teapot'), I('m/art/04.webp','Tabby cat'), I('m/art/10.webp','Fireworks night'), I('m/art/11.webp','Deer in the leaves'), I('m/art/15.webp','Dream until it’s your reality'), I('m/art/16.webp','Girl with a camera'), I('m/art/01.webp','Eye study'), I('m/art/00.webp','Portrait study'), I('m/art/05.webp','Candle'), I('m/art/12.webp','Sleeping child')]},
+ {id:'graphite', title:'Graphite & Traditional Studies', cat:'Traditional', year:'2012 – now', role:'Artist', tools:'Graphite · Charcoal',
+  hover:'', poster:'m/art/02.webp', main:I('m/art/02.webp'),
+  text:['The fine arts foundation under all of it: graphite portraits and figure studies from my traditional training.'],
+  stills:[I('m/art/02.webp','Bearded man'), I('m/art/08.webp','Sadhu'), I('m/art/13.webp','Hands'), I('m/art/07.webp','Eyes through the fence')]},
+ {id:'fan', title:'Fan Art & Experiments', cat:'Practice', year:'2022 – 2025', role:'Personal practice', tools:'Procreate · 2D animation',
+  hover:'m/experiments/06.mp4', poster:'m/new/courage_artist.webp', main:V('m/experiments/06.mp4', 'm/experiments/06.webp'),
+  text:['Practice pieces with characters I grew up with: Courage the Cowardly Dog in a few scenes, a crossover, a chibi, and a short animation test.'],
+  note:'Fan art made for practice. All characters belong to their respective owners.',
+  stills:[I('m/new/courage_artist.webp','Courage at the easel'), I('m/new/courage_tv.webp','Courage on TV'), I('m/new/courage_y2k.webp','Courage and Y2K'), I('m/new/crossover.webp','Crossover'), I('m/experiments/03.webp','Chibi'), I('m/experiments/05.webp','Digital study')]},
+];
+
+/* SVG poster: shown behind every image so a slot is never a broken icon */
+const posterSVG = (title, c) => `<svg class="ph-svg" viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="160" height="100" fill="${c[1]}"/><circle cx="130" cy="28" r="12" fill="${c[0]}" stroke="#24324a" stroke-width="2"/><path d="M0 78q40-12 80 0t80 0V100H0z" fill="${c[0]}" stroke="#24324a" stroke-width="2"/><text x="14" y="52" font-family="Nunito,sans-serif" font-weight="900" font-size="11" fill="#24324a">${title.replace(/&amp;/g, '&amp;').slice(0, 26)}</text></svg>`;
+
+const grid = document.getElementById('grid');
+grid.innerHTML = P.map((p, i) => {
+  const c = COLORS[i % 4];
+  return `<button class="card" data-case="${p.id}" style="--i:${i};--c:${c[0]};--t:${c[1]}">
+    <span class="media">${posterSVG(p.title, c)}<img src="${p.poster}" alt="" loading="${i < 6 ? 'eager' : 'lazy'}" onerror="this.parentNode.classList.add('broken')">
+      ${p.hover ? `<video muted loop playsinline preload="none" data-src="${p.hover}"></video>` : ''}
+      <svg class="frame" aria-hidden="true"><use href="#filmframe"/></svg>
+      <span class="view">▶ View Project</span></span>
+    <span class="strip"></span>
+    <span class="foot"><h3>${p.title}</h3><span class="row"><span class="chip">${p.cat}</span><span class="yr">${p.year}</span></span></span></button>`;
+}).join('');
+
+/* hover-to-play; the file loads only on first hover */
+grid.querySelectorAll('.card').forEach(card => {
+  const v = card.querySelector('video');
+  if (!v) return;
+  card.addEventListener('mouseenter', () => { if (!v.src) v.src = v.dataset.src; v.play().then(() => card.classList.add('playing')).catch(() => {}); });
+  card.addEventListener('mouseleave', () => { v.pause(); card.classList.remove('playing'); });
+});
+
+/* section switching: click-triggered entrances plus a short paw-print trail */
+const NAVS = ['home', 'about', 'work', 'services', 'contact'];
+const pages = [...document.querySelectorAll('.page')];
+const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const paws = document.querySelector('.paws');
+let current = null;
+function trail() {
+  if (still) return;
+  paws.innerHTML = '';
+  const x0 = 10 + Math.random() * 50;
+  for (let k = 0; k < 4; k++) {
+    const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    s.innerHTML = '<use href="#paw"/>';
+    s.style.left = `calc(${x0 + k * 8}% )`; s.style.bottom = `${k % 2 ? 14 : 0}px`;
+    s.style.setProperty('--rot', '75deg'); s.style.animationDelay = `${k * 140}ms`;
+    paws.appendChild(s);
+  }
+}
+function show(id) {
+  if (!document.getElementById(id) || id === current) return;
+  closeOv(true); closeLb(); closeMenu(); closeCv();
+  pages.forEach(p => { p.hidden = p.id !== id; p.classList.toggle('enter', p.id === id); });
+  document.querySelectorAll('.links button,.mnav [data-go]').forEach(b => b.setAttribute('aria-current', b.dataset.go === id));
+  const pg = document.getElementById(id); pg.scrollTop = 0;
+  (pg.querySelector('[tabindex="-1"]') || pg).focus({preventScroll: true});
+  if (current) trail();
+  current = id;
+}
+
+/* project overlay */
+const ov = document.getElementById('ov'), ovBody = document.getElementById('ov-body');
+let ovI = 0, ovOpener = null, ovTimer;
+const media = (m, cls) => m.t === 'v'
+  ? `<video ${cls} controls playsinline preload="metadata" poster="${m.p}" src="${m.s}"></video>`
+  : `<img ${cls} src="${m.s}" alt="${(m.cap || '').replace(/"/g, '&quot;')}" loading="lazy">`;
+function openOv(i) {
+  ovI = (i + P.length) % P.length;
+  const p = P[ovI];
+  ovBody.innerHTML = `<div class="panel">${media(p.main, '')}</div>
+    <h2 id="ov-title" tabindex="-1">${p.title}</h2>
+    <div class="facts"><span class="chip">${p.cat}</span><span><b>Year</b> ${p.year}</span><span><b>Role</b> ${p.role}</span><span><b>Tools</b> ${p.tools}</span></div>
+    <div class="ov-text">${p.text.map(t => `<p>${t}</p>`).join('')}${p.note ? `<p class="ov-note">${p.note}</p>` : ''}</div>
+    <h3 class="stills-h">Stills &amp; Frames</h3>
+    <div class="stills">${p.stills.map((s, j) => s.t === 'v'
+      ? `<figure class="pol"><span class="pm">${media(s, '')}</span><span class="pc">${s.cap}</span></figure>`
+      : `<button class="pol" data-still="${j}"><span class="pm">${media(s, '')}</span><span class="pc">${s.cap}</span></button>`).join('')}</div>`;
+  document.getElementById('ov-pos').textContent = `${ovI + 1} / ${P.length}`;
+  clearTimeout(ovTimer);
+  if (ov.hidden) { ovOpener = document.activeElement; ov.hidden = false; requestAnimationFrame(() => requestAnimationFrame(() => ov.classList.add('open'))); }
+  ov.scrollTop = 0;
+  document.getElementById('ov-title').focus({preventScroll: true});
+}
+function closeOv(now) {
+  if (ov.hidden) return;
+  ov.classList.remove('open');
+  const done = () => { ov.hidden = true; ovBody.innerHTML = ''; };
+  if (now || still) done(); else ovTimer = setTimeout(done, 420);
+  if (!now && ovOpener) ovOpener.focus({preventScroll: true});
+}
+
+/* still viewer (images in the open project) */
+const lb = document.getElementById('lb'), lbImg = document.getElementById('lb-img');
+let lbList = [], lbJ = 0;
+function openLb(j) {
+  lbList = P[ovI].stills.map((s, k) => ({...s, k})).filter(s => s.t === 'i');
+  const pos = lbList.findIndex(s => s.k === j);
+  lbJ = (pos + lbList.length) % lbList.length;
+  const s = lbList[lbJ];
+  lbImg.src = s.s; lbImg.alt = s.cap; document.getElementById('lb-cap').textContent = `${s.cap} · ${lbJ + 1} / ${lbList.length}`;
+  lb.hidden = false; document.getElementById('lb-x').focus();
+}
+function stepLb(d) { openLb(lbList[(lbJ + d + lbList.length) % lbList.length].k); }
+function closeLb() { lb.hidden = true; }
+
+/* mobile menu */
+const mnav = document.getElementById('mnav'), burger = document.getElementById('burger');
+function openMenu() { mnav.hidden = false; burger.setAttribute('aria-expanded', true); document.getElementById('mnav-x').focus(); }
+function closeMenu() { if (mnav.hidden) return; mnav.hidden = true; burger.setAttribute('aria-expanded', false); }
+
+/* CV viewer; the PDF download uses the page's downloads permission when this view offers it */
+const cvv = document.getElementById('cvv'), cvNote = document.getElementById('cv-note'), cvWrap = document.getElementById('cv-dlwrap');
+let dl = null, cvOpener = null;
+window.claude?.use?.('downloads').then(d => { dl = d; cvWrap.hidden = !d; }).catch(() => {});
+function openCv() { cvOpener = document.activeElement; cvv.hidden = false; cvv.scrollTop = 0; document.getElementById('cv-x').focus(); }
+function closeCv() { if (cvv.hidden) return; cvv.hidden = true; cvNote.hidden = true; if (cvOpener) cvOpener.focus({preventScroll: true}); }
+async function saveCv() {
+  const note = m => { cvNote.textContent = m; cvNote.hidden = false; };
+  try {
+    const blob = await (await fetch('Adwittiya_Mondal_CV.pdf')).blob();
+    await dl.save({filename: 'Adwittiya_Mondal_CV.pdf', data: blob});
+    note('CV saved.');
+  } catch (e) {
+    if (e && e.code === 'declined') return;
+    if (e && e.code === 'rate_limited') return note('A save prompt is already open. Try again in a moment.');
+    cvWrap.hidden = true; note('Downloading isn’t available in this view. You can still read the full CV here.');
+  }
+}
+
+/* contact form: no backend, so it hands the message to the visitor's email app */
+const form = document.getElementById('cform'), sent = document.getElementById('cf-sent'), err = document.getElementById('cf-err');
+const ME = 'adwittiya.mondal.tiga018@gmail.com';
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const name = form.name.value.trim(), email = form.email.value.trim(), type = form.type.value, msg = form.message.value.trim();
+  const bad = !name ? 'Add your name.' : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? 'Add a valid email address so I can reply.' : !msg ? 'Write a short message.' : '';
+  err.textContent = bad; err.hidden = !bad;
+  if (bad) return;
+  const a = document.createElement('a');
+  a.href = `mailto:${ME}?subject=${encodeURIComponent(type + ' enquiry from ' + name)}&body=${encodeURIComponent(msg + '\n\n— ' + name + ' (' + email + ')')}`;
+  a.target = '_blank'; a.rel = 'noopener'; a.click();
+  sent.innerHTML = '';
+  const s = document.createElement('strong'); s.textContent = 'Thanks! I’ll be in touch soon. 🐾';
+  const p = document.createElement('p'); p.style.margin = '0';
+  p.textContent = `Your email app should open with your message ready to send. If it didn't, email ${ME} directly.`;
+  sent.append(s, p); sent.hidden = false; form.hidden = true;
+});
+
+/* video rescue: some browsers can't stream files from the host, so on an error or a stall the video is downloaded whole and played from memory */
+function rescue(v) {
+  if (v.dataset.rescued || !(v.currentSrc || v.getAttribute('src'))) return;
+  v.dataset.rescued = '1';
+  const wasPlaying = !v.paused;
+  fetch(v.currentSrc || v.src).then(r => { if (!r.ok) throw new Error(r.status); return r.blob(); })
+    .then(b => { v.src = URL.createObjectURL(new Blob([b], {type: 'video/mp4'})); v.load(); if (wasPlaying) v.play().catch(() => {}); })
+    .catch(() => {
+      if (v.closest('.card')) return;
+      const n = document.createElement('p'); n.className = 'vid-err';
+      n.innerHTML = 'This video can’t play on this device. <a href="https://amondal20230898.myportfolio.com/about-me" target="_blank" rel="noopener">See my work on Adobe Portfolio ↗</a>';
+      (v.closest('.panel,.pol') || v).insertAdjacentElement('afterend', n);
+    });
+}
+document.addEventListener('error', e => { if (e.target.tagName === 'VIDEO') rescue(e.target); }, true);
+document.addEventListener('play', e => {
+  const v = e.target;
+  if (v.tagName !== 'VIDEO' || v.dataset.rescued) return;
+  setTimeout(() => { if (!v.paused && v.currentTime < 0.1 && v.readyState < 3) rescue(v); }, 4000);
+}, true);
+
+/* cursor: dot plus a ring that follows through */
+const cur = document.querySelector('.cur'), ring = document.querySelector('.ring');
+let mx = -100, my = -100, rx = -100, ry = -100;
+const HOT = 'a,button,summary,select,input,textarea,label,[data-go],[data-case]';
+addEventListener('pointermove', e => {
+  if (e.pointerType !== 'mouse') return;
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+  const hot = !!e.target.closest(HOT);
+  cur.classList.toggle('hot', hot); ring.classList.toggle('hot', hot);
+  cur.classList.remove('off'); ring.classList.remove('off');
+}, {passive: true});
+document.addEventListener('pointerleave', () => { cur.classList.add('off'); ring.classList.add('off'); });
+(function follow() {
+  rx += (mx - rx) * .16; ry += (my - ry) * .16;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(follow);
+})();
+
+/* one delegated click handler */
+document.addEventListener('click', e => {
+  const t = e.target, g = t.closest('[data-go]'), c = t.closest('[data-case]'), st = t.closest('[data-still]'), cp = t.closest('[data-copy]');
+  if (g) show(g.dataset.go);
+  else if (c) openOv(P.findIndex(p => p.id === c.dataset.case));
+  else if (st) openLb(+st.dataset.still);
+  else if (cp) {
+    const done = () => { cp.textContent = 'Copied!'; setTimeout(() => cp.textContent = 'Copy email', 1600); };
+    const sel = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('mail')); getSelection().removeAllRanges(); getSelection().addRange(r); };
+    try { navigator.clipboard.writeText(cp.dataset.copy).then(done, sel); } catch { sel(); }
+  }
+  if (t.closest('[data-cv]')) openCv();
+  if (t.closest('#cv-x')) closeCv();
+  if (t.closest('#cv-dl')) saveCv();
+  if (t.closest('#ov-close')) closeOv();
+  if (t.closest('#ov-prev')) openOv(ovI - 1);
+  if (t.closest('#ov-next')) openOv(ovI + 1);
+  if (t.closest('#lb-x') || t === lb) closeLb();
+  if (t.closest('#lb-prev')) stepLb(-1);
+  if (t.closest('#lb-next')) stepLb(1);
+  if (t.closest('#burger')) openMenu();
+  if (t.closest('#mnav-x')) closeMenu();
+});
+document.addEventListener('keydown', e => {
+  if (!lb.hidden) { if (e.key === 'ArrowLeft') stepLb(-1); else if (e.key === 'ArrowRight') stepLb(1); else if (e.key === 'Escape') closeLb(); return; }
+  if (!ov.hidden && (e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !/INPUT|TEXTAREA|SELECT|VIDEO/.test(document.activeElement.tagName)) { openOv(ovI + (e.key === 'ArrowRight' ? 1 : -1)); return; }
+  if (e.key !== 'Escape') return;
+  if (!cvv.hidden) closeCv(); else if (!mnav.hidden) closeMenu(); else if (!ov.hidden) closeOv(); else if (current !== 'home') show('home');
+});
+
+const start = location.hash.slice(1);
+show(NAVS.includes(start) ? start : 'home');
+</script>
+
+</body>
+</html>
