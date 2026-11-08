@@ -97,14 +97,19 @@ h1,h2,h3{font-weight:900;line-height:1.08;margin:0;text-wrap:balance}
 .name{font-size:clamp(46px,9vw,124px);letter-spacing:.01em;color:var(--ink);text-shadow:5px 6px 0 var(--sand),5px 6px 18px rgba(186,128,28,.35)}
 .titleline{font-weight:800;font-size:clamp(16px,1.9vw,23px);margin:16px auto 30px;max-width:46ch;background:rgba(255,255,255,.82);padding:8px 18px;border-radius:999px;display:inline-block}
 .cta{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
-.mascot{position:absolute;z-index:3;right:max(4vw,env(safe-area-inset-right,0px));bottom:7vh;width:clamp(96px,11vw,150px);cursor:pointer}
+.mascot{position:fixed;z-index:45;right:max(4vw,env(safe-area-inset-right,0px));bottom:7vh;width:clamp(96px,11vw,150px);cursor:pointer;transition:width .35s var(--ease),bottom .35s var(--ease),right .35s var(--ease)}
+.mascot.mini{width:clamp(64px,6vw,84px);right:max(18px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 58px)}
+.mascot svg{display:block;overflow:visible}
+.mascot.boing svg{animation:boing .7s cubic-bezier(.3,0,.3,1)}
+@keyframes boing{0%{transform:scale(1.25,.7)}30%{transform:translateY(-45%) scale(.85,1.2) rotate(-12deg)}60%{transform:translateY(-45%) scale(.95,1.05) rotate(348deg)}85%{transform:scale(1.2,.8) rotate(360deg)}100%{transform:none}}
+.mascot .pupil{transition:transform .12s linear}
 .mascot .body{transform-box:fill-box;transform-origin:50% 100%;animation:hop 1.6s cubic-bezier(.5,0,.5,1) infinite}
 .mascot .lid{transform-box:fill-box;transform-origin:center;animation:blinkEye 4.2s infinite}
 @keyframes hop{0%,100%{transform:translateY(0) scale(1.12,.86)}12%{transform:translateY(0) scale(.92,1.1)}45%{transform:translateY(-26%) scale(.96,1.05)}78%{transform:translateY(0) scale(1.08,.9)}}
 @keyframes blinkEye{0%,92%,100%{transform:scaleY(0)}95%{transform:scaleY(1)}}
 .mascot-tip{position:absolute;right:0;bottom:100%;margin-bottom:8px;white-space:nowrap;padding:5px 12px;border-radius:999px;background:var(--white);border:2px solid var(--ink);font-weight:800;font-size:13px;opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s}
-.mascot:hover .mascot-tip,.mascot:focus-visible .mascot-tip{opacity:1;transform:none}
-@media (max-width:640px){.mascot{bottom:3vh}}
+.mascot:hover .mascot-tip,.mascot:focus-visible .mascot-tip,.mascot.talk .mascot-tip{opacity:1;transform:none}
+@media (max-width:640px){.mascot:not(.mini){bottom:3vh}}
 
 /* SHOWREEL */
 #showreel{background:var(--sky-t)}
@@ -340,19 +345,6 @@ button.pol:hover{transform:rotate(0) scale(1.03)}
       </div>
     </div>
   </div>
-  <button class="mascot" data-go="work" aria-label="Blob, my own animated character. Opens my work">
-    <span class="mascot-tip">Hi, I'm Blob! I'm from her animation tests</span>
-    <svg viewBox="0 0 140 130" aria-hidden="true">
-      <ellipse cx="70" cy="122" rx="44" ry="7" fill="rgba(36,50,74,.25)"/>
-      <g class="body">
-        <path d="M22 118c-14 0-16-14-6-20 8-5 10-12 10-28 0-34 18-56 46-56s44 22 44 48c0 18 4 26 12 32 10 7 6 24-8 24z" fill="#f2832f" stroke="#24324a" stroke-width="6" stroke-linejoin="round"/>
-        <circle cx="58" cy="54" r="11" fill="#fff" stroke="#24324a" stroke-width="4"/><circle cx="88" cy="54" r="11" fill="#fff" stroke="#24324a" stroke-width="4"/>
-        <circle cx="61" cy="56" r="5" fill="#24324a"/><circle cx="91" cy="56" r="5" fill="#24324a"/>
-        <rect class="lid" x="45" y="42" width="56" height="25" fill="#f2832f"/>
-        <path d="M60 78q13 10 26 0" fill="none" stroke="#24324a" stroke-width="5" stroke-linecap="round"/>
-      </g>
-    </svg>
-  </button>
 </section>
 
 <!-- SHOWREEL -->
@@ -489,6 +481,21 @@ button.pol:hover{transform:rotate(0) scale(1.03)}
 </div>
 
 <!-- STILL VIEWER -->
+<!-- BLOB: on every page -->
+<button class="mascot" id="blob" aria-label="Blob, my own animated character. Click to say hi">
+    <span class="mascot-tip" aria-live="polite">Hi, I'm Blob! I'm from her animation tests</span>
+    <svg viewBox="0 0 140 130" aria-hidden="true">
+      <ellipse cx="70" cy="122" rx="44" ry="7" fill="rgba(36,50,74,.25)"/>
+      <g class="body">
+        <path d="M22 118c-14 0-16-14-6-20 8-5 10-12 10-28 0-34 18-56 46-56s44 22 44 48c0 18 4 26 12 32 10 7 6 24-8 24z" fill="#f2832f" stroke="#24324a" stroke-width="6" stroke-linejoin="round"/>
+        <circle cx="58" cy="54" r="11" fill="#fff" stroke="#24324a" stroke-width="4"/><circle cx="88" cy="54" r="11" fill="#fff" stroke="#24324a" stroke-width="4"/>
+        <circle class="pupil" cx="61" cy="56" r="5" fill="#24324a"/><circle class="pupil" cx="91" cy="56" r="5" fill="#24324a"/>
+        <rect class="lid" x="45" y="42" width="56" height="25" fill="#f2832f"/>
+        <path d="M60 78q13 10 26 0" fill="none" stroke="#24324a" stroke-width="5" stroke-linecap="round"/>
+      </g>
+    </svg>
+  </button>
+
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Still viewer" hidden>
   <button class="pill coral small lb-x" id="lb-x">Close ✕</button>
   <button class="arrow" id="lb-prev" aria-label="Previous still">←</button>
@@ -615,6 +622,7 @@ function show(id) {
   if (id !== 'showreel') reel.pause();
   if (current) trail();
   current = id;
+  blobEl.classList.toggle('mini', id !== 'home');
 }
 
 /* project overlay */
@@ -744,6 +752,31 @@ document.addEventListener('pointerleave', () => { cur.classList.add('off'); ring
   ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
   requestAnimationFrame(follow);
 })();
+
+/* Blob: eyes follow the pointer, a click makes him jump and say something about the page */
+const blobEl = document.getElementById('blob'), blobTip = blobEl.querySelector('.mascot-tip');
+const BLOB = {
+  home: ["Hi, I'm Blob! I'm from her animation tests", 'Boing! That was squash and stretch', 'Poke me on every page, I follow you around'],
+  showreel: ["I'm in this reel, right near the start!", 'The chapter buttons skip to each part', 'She drew every frame of me by hand'],
+  about: ['She drew me in a sketchbook first', 'Timing is her favourite thing. Ask her!', 'Her CV is just below'],
+  work: ['Click a card to open a case study', "Psst, I'm in the Animation Tests card", 'Use the filters to sort her work'],
+  services: ['Need a character animated? She can help', 'Storyboards, animatics, character design and more', 'Like what you see? Contact is next'],
+  contact: ['Say hi! She would love to hear from you', 'The form opens your email app', 'Copy her email with one click'],
+  case: ['Ooh, a case study!', 'Scroll down for the stills', 'Click any still to see it bigger']
+};
+const blobN = {}; let blobTalk;
+blobEl.addEventListener('click', () => {
+  const k = ov.hidden && BLOB[current] ? current : ov.hidden ? 'home' : 'case', n = blobN[k] = (blobN[k] ?? -1) + 1;
+  blobTip.textContent = BLOB[k][n % BLOB[k].length];
+  blobEl.classList.remove('boing'); void blobEl.offsetWidth; blobEl.classList.add('boing', 'talk');
+  clearTimeout(blobTalk); blobTalk = setTimeout(() => blobEl.classList.remove('talk'), 2600);
+});
+blobEl.addEventListener('animationend', e => { if (e.animationName === 'boing') blobEl.classList.remove('boing'); });
+if (!still) addEventListener('pointermove', e => {
+  const r = blobEl.getBoundingClientRect(), dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height * .42), d = Math.hypot(dx, dy) || 1;
+  const k = Math.min(4, d / 40);  // pupils stay inside the eye whites
+  blobEl.querySelectorAll('.pupil').forEach(p => p.style.transform = `translate(${dx / d * k}px,${dy / d * k}px)`);
+}, {passive: true});
 
 /* one delegated click handler */
 document.addEventListener('click', e => {
