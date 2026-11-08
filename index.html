@@ -103,6 +103,26 @@ h1,h2,h3{font-weight:900;line-height:1.08;margin:0;text-wrap:balance}
 .mascot.boing svg{animation:boing .7s cubic-bezier(.3,0,.3,1)}
 @keyframes boing{0%{transform:scale(1.25,.7)}30%{transform:translateY(-45%) scale(.85,1.2) rotate(-12deg)}60%{transform:translateY(-45%) scale(.95,1.05) rotate(348deg)}85%{transform:scale(1.2,.8) rotate(360deg)}100%{transform:none}}
 .mascot .pupil{transition:transform .12s linear}
+.bot{position:fixed;z-index:45;right:max(18px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 154px);width:min(370px,calc(100vw - 36px));max-height:min(540px,calc(100dvh - 250px));
+  display:flex;flex-direction:column;background:var(--cream);border:3px solid var(--ink);border-radius:24px;box-shadow:0 6px 0 var(--ink),0 18px 40px rgba(36,50,74,.25);overflow:hidden;transform-origin:90% 100%;animation:botIn .35s var(--ease)}
+.bot[hidden]{display:none}
+@keyframes botIn{from{transform:scale(.6) translateY(30px);opacity:0}}
+.bot-top,.bot-chips,.bot-in{flex:none}
+.bot-top{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f2832f;color:var(--ink);border-bottom:3px solid var(--ink)}
+.bot-top b{font-size:18px;font-weight:900}.bot-top span{font-size:13px;font-weight:700;flex:1}
+.bot-x{width:34px;height:34px;border-radius:50%;border:2.5px solid var(--ink);background:var(--white);font-size:20px;font-weight:900;line-height:1;cursor:pointer;color:var(--ink)}
+.bot-log{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:14px;display:flex;flex-direction:column;gap:8px;min-height:120px}
+.msg{max-width:86%;padding:9px 13px;border-radius:18px;font-size:15px;line-height:1.45;white-space:pre-line;animation:up .3s var(--ease) both}
+.msg.b{align-self:flex-start;background:var(--white);border:2px solid var(--ink);border-bottom-left-radius:6px}
+.msg.u{align-self:flex-end;background:var(--sky);border:2px solid var(--ink);border-bottom-right-radius:6px;font-weight:700}
+.msg.dots{letter-spacing:3px;font-weight:900}
+.acts{display:flex;flex-wrap:wrap;gap:6px;align-self:flex-start}
+.acts a,.acts button,.bot-chips button{font:inherit;font-size:13px;font-weight:800;padding:6px 12px;border-radius:999px;border:2px solid var(--ink);background:var(--sand);color:var(--ink);text-decoration:none;cursor:pointer}
+.bot-chips{display:flex;gap:6px;overflow-x:auto;padding:0 14px 10px;scrollbar-width:none}
+.bot-chips button{background:var(--white);white-space:nowrap;flex:none}
+.bot-in{display:flex;gap:8px;margin:0;padding:10px 12px;border-top:2px solid var(--ink);background:var(--white)}
+.bot-in input{flex:1;min-width:0;font:inherit;font-size:16px;padding:9px 14px;border-radius:999px;border:2px solid var(--ink);background:var(--cream);color:var(--ink)}
+.bot-in button{width:42px;height:42px;border-radius:50%;border:2.5px solid var(--ink);background:var(--sky);font-size:18px;font-weight:900;cursor:pointer;color:var(--ink)}
 .mascot .body{transform-box:fill-box;transform-origin:50% 100%;animation:hop 1.6s cubic-bezier(.5,0,.5,1) infinite}
 .mascot .lid{transform-box:fill-box;transform-origin:center;animation:blinkEye 4.2s infinite}
 @keyframes hop{0%,100%{transform:translateY(0) scale(1.12,.86)}12%{transform:translateY(0) scale(.92,1.1)}45%{transform:translateY(-26%) scale(.96,1.05)}78%{transform:translateY(0) scale(1.08,.9)}}
@@ -482,8 +502,8 @@ button.pol:hover{transform:rotate(0) scale(1.03)}
 
 <!-- STILL VIEWER -->
 <!-- BLOB: on every page -->
-<button class="mascot" id="blob" aria-label="Blob, my own animated character. Click to say hi">
-    <span class="mascot-tip" aria-live="polite">Hi, I'm Blob! I'm from her animation tests</span>
+<button class="mascot" id="blob" aria-label="Chat with Blob, my animated character" aria-controls="bot" aria-expanded="false">
+    <span class="mascot-tip">Hi, I'm Blob! Ask me anything</span>
     <svg viewBox="0 0 140 130" aria-hidden="true">
       <ellipse cx="70" cy="122" rx="44" ry="7" fill="rgba(36,50,74,.25)"/>
       <g class="body">
@@ -496,6 +516,12 @@ button.pol:hover{transform:rotate(0) scale(1.03)}
     </svg>
   </button>
 
+<div class="bot" id="bot" role="dialog" aria-label="Chat with Blob" hidden>
+  <div class="bot-top"><b>Blob</b><span>Ask me about Adwittiya</span><button class="bot-x" id="bot-x" aria-label="Close chat">×</button></div>
+  <div class="bot-log" id="bot-log" aria-live="polite"></div>
+  <div class="bot-chips" id="bot-chips"></div>
+  <form class="bot-in" id="bot-form"><input id="bot-q" maxlength="200" placeholder="Ask Blob something…" autocomplete="off" aria-label="Your question"><button aria-label="Send">→</button></form>
+</div>
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Still viewer" hidden>
   <button class="pill coral small lb-x" id="lb-x">Close ✕</button>
   <button class="arrow" id="lb-prev" aria-label="Previous still">←</button>
@@ -622,7 +648,7 @@ function show(id) {
   if (id !== 'showreel') reel.pause();
   if (current) trail();
   current = id;
-  blobEl.classList.toggle('mini', id !== 'home');
+  blobEl.classList.toggle('mini', id !== 'home' || !bot.hidden);
 }
 
 /* project overlay */
@@ -753,25 +779,115 @@ document.addEventListener('pointerleave', () => { cur.classList.add('off'); ring
   requestAnimationFrame(follow);
 })();
 
-/* Blob: eyes follow the pointer, a click makes him jump and say something about the page */
-const blobEl = document.getElementById('blob'), blobTip = blobEl.querySelector('.mascot-tip');
-const BLOB = {
-  home: ["Hi, I'm Blob! I'm from her animation tests", 'Boing! That was squash and stretch', 'Poke me on every page, I follow you around'],
-  showreel: ["I'm in this reel, right near the start!", 'The chapter buttons skip to each part', 'She drew every frame of me by hand'],
-  about: ['She drew me in a sketchbook first', 'Timing is her favourite thing. Ask her!', 'Her CV is just below'],
-  work: ['Click a card to open a case study', "Psst, I'm in the Animation Tests card", 'Use the filters to sort her work'],
-  services: ['Need a character animated? She can help', 'Storyboards, animatics, character design and more', 'Like what you see? Contact is next'],
-  contact: ['Say hi! She would love to hear from you', 'The form opens your email app', 'Copy her email with one click'],
-  case: ['Ooh, a case study!', 'Scroll down for the stills', 'Click any still to see it bigger']
+/* Blob chat bot: answers from what is on this site, no server needed. Eyes follow the pointer. */
+const blobEl = document.getElementById('blob'), bot = document.getElementById('bot'), botLog = document.getElementById('bot-log'),
+  botChips = document.getElementById('bot-chips'), botForm = document.getElementById('bot-form'), botQ = document.getElementById('bot-q');
+const EMAIL = 'adwittiya.mondal.tiga018@gmail.com';
+const A = {
+  about: ['About her', {go: 'about'}], work: ['See her work', {go: 'work'}], reel: ['▶ Watch the showreel', {go: 'showreel'}],
+  services: ['What she does', {go: 'services'}], contact: ['Contact page', {go: 'contact'}], cv: ['View her CV', {cv: 1}],
+  mail: ['Email her', {href: 'mailto:' + EMAIL}], linkedin: ['LinkedIn ↗', {href: 'https://www.linkedin.com/in/adwittiya-mondal-143154293'}],
+  art: ['ArtStation ↗', {href: 'https://adwittiya.artstation.com/'}], insta: ['Instagram ↗', {href: 'https://www.instagram.com/mermallade_at_night/'}],
+  bugged: ['Open Bugged Reality', {case: 'bugged'}], collarts: ['Open Collarts video', {case: 'collarts'}], nams: ['Open Advocacy Film', {case: 'nams'}],
+  fantasy: ['Open Medieval Fantasy', {case: 'fantasy'}], originals: ['Original characters', {case: 'originals'}], anim: ['Open Animation Tests', {case: 'anim'}],
+  fan: ['Fan art & experiments', {case: 'fan'}], illus: ['Illustration', {case: 'illus'}], graphite: ['Graphite studies', {case: 'graphite'}]
 };
-const blobN = {}; let blobTalk;
+// [pattern, answer, actions, weight]; the reply with the most (weighted) keyword hits wins, so a named project beats a generic "tell me about"
+const KB = [
+  [/\b(hi|hello|hey|hiya|g'?day|yo|sup)\b/, "Hi there! I'm Blob. Ask me about Adwittiya's work, skills, or how to get in touch.", []],
+  [/\b(you|blob|your name|are you)\b/, "I'm Blob, one of her animation tests! I started as a doodle in her sketchbook, then she taught me squash, stretch and a big anticipation before I run.", ['anim']],
+  [/\b(who|about|herself|adwittiya|background|story)\b/, "Adwittiya is a 2D animator in Melbourne and a CG Animation & VFX graduate from Collarts. She's been drawing since 2012, trained in fine arts, and loves character animation, frame-by-frame work and storyboarding.", ['about', 'cv']],
+  [/\b(hire|hiring|available|availability|job|role|work with|freelance|remote|open to|position|opportunit)/, "Yes, she's open to junior 2D animation roles, character animation work and collaborative productions. She's based in Melbourne and happy to work remotely too.", ['mail', 'contact', 'cv']],
+  [/\b(contact|email|e-mail|reach|message|get in touch|talk to)\b/, `The quickest way is email: ${EMAIL}\nYou can also use the form on her Contact page.`, ['mail', 'contact', 'linkedin'], 2],
+  [/\b(cv|resume|résumé|experience)\b/, "Her CV is right here. You can read it on the site or download the PDF.", ['cv'], 2],
+  [/\b(showreel|reel|demo|highlights?)\b/, "Her 2D showreel is a quick tour of character animation, storyboards and character design. I'm in it right near the start!", ['reel'], 2],
+  [/\b(work|projects?|portfolio|best|favourite|favorite|examples?)\b/, "A few highlights:\n• Bugged Reality, her capstone short film\n• The Collarts welcome video, seen by 1,000+ students\n• An advocacy film animatic for Animal-Free Science Advocacy\n• Character design for a Russian medieval fantasy", ['work', 'bugged', 'collarts']],
+  [/\b(bugged|capstone|short film|bedroom|glitch)\b/, "Bugged Reality is her capstone short: a boy, a bedroom, a monitor and a glitch that won't stay on the screen. She wrote it, storyboarded it, designed the characters and props, made the colour script and did the sound.", ['bugged'], 2],
+  [/\b(collarts|welcome video|students?)\b/, "She wrote, designed and animated Collarts' official student welcome video, seen by over 1,000 incoming students.", ['collarts'], 2],
+  [/\b(advocacy|animal|science|internship|nams)\b/, "She's been animating and art directing a 2-minute film for Animal-Free Science Advocacy about moving research away from animal testing.", ['nams'], 2],
+  [/\b(character design|characters?|fantasy|turnaround|creature|bug cards?)\b/, "Character design is one of her favourite things: turnarounds, expression sheets and props. Try the Russian medieval fantasy cast or her original characters.", ['fantasy', 'originals']],
+  [/\b(storyboard\w*|animatic|layout|colour script|color script)\b/, "She plans sequences like real sets, with floor plans, camera positions and colour scripts, then times it all out in an animatic with sound.", ['nams', 'bugged']],
+  [/\b(animation|animate|frame.by.frame|traditional|hand.drawn|2d)\b/, "Hand-drawn animation is her heart: squash and stretch, timing, weight and loops, all built on her fine arts training.", ['anim', 'reel']],
+  [/\b(skills?|software|tools?|programs?|blender|after effects|photoshop|illustrator|premiere|python)\b/, "Skills: 2D & 3D animation, character design, frame-by-frame, storyboarding, scriptwriting, compositing, digital & traditional painting.\nSoftware: After Effects, Photoshop, Illustrator, Premiere Pro, Blender, plus some Python and HTML.", ['about']],
+  [/\b(study|studied|education|degree|uni|university|college|school|graduate|trained|training)\b/, "She graduated in CG Animation & VFX from the Australian College of the Arts (Collarts) in Melbourne, and trained in fine arts through Pracheen Kala Kendra since 2012.", ['about', 'cv']],
+  [/\b(where|location|based|live|melbourne|australia|city)\b/, "She's in Melbourne, Victoria, Australia, and happy to work remotely too.", ['contact']],
+  [/\b(services?|offer|help|do you do|does she do|what can)\b/, "She can help with:\n• Character animation\n• Storyboarding & animatics\n• Frame-by-frame / traditional animation\n• Scriptwriting & production", ['services', 'contact']],
+  [/\b(social|instagram|insta|linkedin|artstation|socials)\b/, "You'll find her here:", ['linkedin', 'art', 'insta']],
+  [/\b(fan ?art|experiments?|practice)\b/, "Her fan art lives under Experiments. It's practice work, and the characters belong to their owners.", ['fan']],
+  [/\b(illustration|painting|paint|drawings?|graphite|sketch\w*|art)\b/, "Away from animation she paints and draws a lot: digital illustration plus graphite and traditional studies.", ['illus', 'graphite']],
+  [/\b(price|rate|rates|cost|charge|budget|quote|fee)\b/, "It depends on the project. Send her an email with what you have in mind and she'll get back to you.", ['mail'], 2],
+  [/\b(thanks|thank you|cheers|ta|great|awesome|cool|nice)\b/, "Anytime! Poke me again if you want to know more.", []],
+  [/\b(bye|goodbye|see ya|later)\b/, "Bye! Thanks for visiting.", []]
+];
+const CHIPS = ['Who is Adwittiya?', 'Is she available?', 'Show me the showreel', 'Best projects', 'Skills & software', 'How do I contact her?'];
+const HINT = {
+  showreel: "You're watching her showreel. The chapter buttons jump to each part!", about: "This is her About page. Want her CV?",
+  work: "Click any card to open a case study, or ask me which ones to see.", services: "These are the four ways she can help your production.",
+  contact: "The form here opens your email app, or you can email her directly.", case: "Ooh, a case study! Scroll down for the stills."
+};
+
+function answer(q) {
+  const s = q.toLowerCase();
+  let best = null, top = 0;
+  for (const [re, text, acts, w = 1] of KB) {
+    const hits = (s.match(new RegExp(re.source, 'g')) || []).length * w;
+    if (hits > top) { top = hits; best = {text, acts}; }
+  }
+  return best || {text: "I'm only a small blob, so I don't know that one yet. Try one of the questions below, or ask her directly.", acts: ['mail']};
+}
+function say(text, who, acts = []) {
+  const m = document.createElement('div'); m.className = 'msg ' + who; m.textContent = text; botLog.append(m);
+  if (acts.length) {
+    const row = document.createElement('div'); row.className = 'acts';
+    for (const k of acts) {
+      const [label, a] = A[k];
+      const el = document.createElement(a.href ? 'a' : 'button');
+      el.textContent = label;
+      if (a.href) { el.href = a.href; if (a.href.startsWith('http')) { el.target = '_blank'; el.rel = 'noopener'; } }
+      else el.dataset.act = k;
+      row.append(el);
+    }
+    botLog.append(row);
+  }
+  botLog.scrollTop = botLog.scrollHeight;
+}
+function ask(q) {
+  q = q.trim(); if (!q) return;
+  say(q, 'u'); botQ.value = '';
+  const dots = document.createElement('div'); dots.className = 'msg b dots'; dots.textContent = '•••'; botLog.append(dots); botLog.scrollTop = botLog.scrollHeight;
+  blobEl.classList.remove('boing'); void blobEl.offsetWidth; blobEl.classList.add('boing');
+  setTimeout(() => { dots.remove(); const r = answer(q); say(r.text, 'b', r.acts); }, still ? 0 : 550);
+}
+let botWhere = null;
+function openBot() {
+  bot.hidden = false; blobEl.classList.add('mini'); blobEl.setAttribute('aria-expanded', 'true');
+  const where = ov.hidden ? current : 'case';
+  if (!botLog.childElementCount) say("Hi, I'm Blob! I came out of Adwittiya's sketchbook. Ask me about her work, her skills, or how to reach her.", 'b');
+  else if (where !== botWhere && HINT[where]) say(HINT[where], 'b');
+  botWhere = where;
+  if (!botChips.childElementCount) for (const c of CHIPS) { const b = document.createElement('button'); b.type = 'button'; b.textContent = c; botChips.append(b); }
+  if (matchMedia('(pointer:fine)').matches) botQ.focus({preventScroll: true});
+}
+function closeBot() {
+  if (bot.hidden) return;
+  bot.hidden = true; blobEl.setAttribute('aria-expanded', 'false'); blobEl.classList.toggle('mini', current !== 'home'); blobEl.focus({preventScroll: true});
+}
 blobEl.addEventListener('click', () => {
-  const k = ov.hidden && BLOB[current] ? current : ov.hidden ? 'home' : 'case', n = blobN[k] = (blobN[k] ?? -1) + 1;
-  blobTip.textContent = BLOB[k][n % BLOB[k].length];
-  blobEl.classList.remove('boing'); void blobEl.offsetWidth; blobEl.classList.add('boing', 'talk');
-  clearTimeout(blobTalk); blobTalk = setTimeout(() => blobEl.classList.remove('talk'), 2600);
+  blobEl.classList.remove('boing'); void blobEl.offsetWidth; blobEl.classList.add('boing');
+  bot.hidden ? openBot() : closeBot();
 });
 blobEl.addEventListener('animationend', e => { if (e.animationName === 'boing') blobEl.classList.remove('boing'); });
+document.getElementById('bot-x').addEventListener('click', closeBot);
+botForm.addEventListener('submit', e => { e.preventDefault(); ask(botQ.value); });
+botChips.addEventListener('click', e => { if (e.target.tagName === 'BUTTON') ask(e.target.textContent); });
+botLog.addEventListener('click', e => {
+  const k = e.target.dataset?.act; if (!k) return;
+  const a = A[k][1];
+  if (a.go) show(a.go);
+  else if (a.cv) openCv();
+  else if (a.case) openOv(P.findIndex(p => p.id === a.case));
+  if (matchMedia('(max-width:640px)').matches) closeBot();  // on phones the chat would cover what it just opened
+});
 if (!still) addEventListener('pointermove', e => {
   const r = blobEl.getBoundingClientRect(), dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height * .42), d = Math.hypot(dx, dy) || 1;
   const k = Math.min(4, d / 40);  // pupils stay inside the eye whites
@@ -807,7 +923,7 @@ document.addEventListener('keydown', e => {
   if (!lb.hidden) { if (e.key === 'ArrowLeft') stepLb(-1); else if (e.key === 'ArrowRight') stepLb(1); else if (e.key === 'Escape') closeLb(); return; }
   if (!ov.hidden && (e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !/INPUT|TEXTAREA|SELECT|VIDEO/.test(document.activeElement.tagName)) { openOv(ovI + (e.key === 'ArrowRight' ? 1 : -1)); return; }
   if (e.key !== 'Escape') return;
-  if (!cvv.hidden) closeCv(); else if (!mnav.hidden) closeMenu(); else if (!ov.hidden) closeOv(); else if (current !== 'home') show('home');
+  if (!cvv.hidden) closeCv(); else if (!bot.hidden) closeBot(); else if (!mnav.hidden) closeMenu(); else if (!ov.hidden) closeOv(); else if (current !== 'home') show('home');
 });
 
 const start = location.hash.slice(1);
